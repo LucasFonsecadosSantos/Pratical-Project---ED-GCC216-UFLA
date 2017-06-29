@@ -31,6 +31,7 @@
 #include <cstddef>
 #include "../include/System.h"
 #include "../include/Screen.h"
+#include "../include/Data.h"
 #include "../include/List.h"
 
 
@@ -100,18 +101,11 @@ void System::execute() {
  * After this, he writes the new data in actual data file.
  */
 void System::insertNewRegister() {
-   ofstream dataFile("../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
-   ifstream dataFileIn("../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+   
    Screen sc;
-   int lastID = 0;
-   object hero;
-   dataFileIn.seekg(0,ios_base::end);
-   while(dataFileIn.read((char*) &hero, sizeof(object))) {;
-         lastID = hero.id;
-   }
-   List newRegisters = sc.captureNewRegister(lastID);
-   dataFile.close();
-   dataFileIn.close();
+   Data* dt = new Data();     
+   cout << dt->returnLastElementID();
+   //List newRegisters = sc.captureNewRegister(lastID);
 }
 
 
