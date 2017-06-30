@@ -105,7 +105,8 @@ void System::insertNewRegister() {
    Screen sc;
    Data* dt = new Data();     
    cout << dt->returnLastElementID();
-   //List newRegisters = sc.captureNewRegister(lastID);
+   List newRegisters = sc.captureNewRegister(dt->returnLastElementID());
+   dt->saveData(newRegisters);
 }
 
 

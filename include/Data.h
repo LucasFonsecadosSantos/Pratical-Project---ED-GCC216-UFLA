@@ -1,5 +1,5 @@
 /**
- * \file List.h
+ * \file Data.h
  *
  * Pratical Project of Data Struct
  * (Estrutura de Dados GCC126 - UFLA (Universidade Federal de Lavras))
@@ -21,45 +21,31 @@
  * - Object.cpp (Implementing system objects.)
  * - Object.hpp (Header of system objects.)
  * - System.h (Header of system object.)
+ * - Data.h (Header of data object header.)
  *
  * *********************************************************************
- * [List.h]
- * This header file contains signatures of the methods of the list data
- * struct.
+ * [Data.h]
+ * This header file contains signatures of the methods of the Data
+ * object.
  */
-#ifndef LIST_TYPE_H
-#define LIST_TYPE_H 1
-#include "Object.h"
-#include <string>
+#ifndef DATA_TYPE_H
+#define DATA_TYPE_H 1
+#include <fstream>
+#include "List.h"
 
-/**
- * This class describes the node object.
- */
-class Node {
-   friend class List;
-   private:
-      Node* next;
-      Node* previus;
-      object hero;
-   public:
-      Node(object hero);
-      ~Node();
-};
 
-class List {
-   private:
-      Node* firstElement;
-      Node* lastElement;
-      int size;
-   public:
-      List();
-      ~List();
-      void insertNewElement(object hero);
-      void removeElement(int id);
-      inline bool isEmpty();
-      string printList();
-      object returnData();
-      int getSize();
+class Data {
+
+    private:
+        ifstream dataInFile;
+        ofstream dataOutFile;
+    public:
+        Data();
+        ~Data();
+        List* loadData();
+        int returnLastElementID();
+        void saveData(List);
+
 };
 
 #endif

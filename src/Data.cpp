@@ -1,6 +1,7 @@
 #include "../include/Data.h"
 #include "../include/List.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -18,8 +19,10 @@ List* Data::loadData() {
    List* dataObjects = new List();
    object hero;
    while(this->dataInFile.read((char*) &hero, sizeof(object))) {
-       if(hero.id != -99) {
+       if(hero.id > -99) {
            dataObjects->insertNewElement(hero);
+       }else{
+           continue;
        }
    }
    return dataObjects;
@@ -29,6 +32,15 @@ int Data::returnLastElementID() {
     List* dataobjects = new List();
     dataobjects = loadData();
     object heroAux = dataobjects->returnData();
+    return heroAux.id++;
+}
 
-    return heroAux.id;
+void Data::saveData(List newRegisters) {
+    object hero;
+    cout << newRegisters.returnData().id;
+    cout << newRegisters.getSize();
+    while(newRegisters.getSize() > 0) {
+        hero = newRegisters.returnData();
+        dataOutFile.write((char*) &hero, sizeof(object));
+    }
 }

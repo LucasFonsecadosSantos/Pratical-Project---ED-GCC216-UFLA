@@ -157,7 +157,7 @@ void List::removeElement(int idHero) {
  * @return bool (Boolean about the condition of list)
  */
 inline bool List::isEmpty() {
-   return (this->size == 0);
+   return (this->size <= 0);
 }
 
 /*
@@ -207,20 +207,14 @@ string List::printList() {
  * @return object (Data type that represents hero on system)
  */
 object List::returnData() {
-   if(isEmpty()) return object{-99,0,0,0};
-   Node* tmpNode = this->firstElement;
-   object tmpObj = tmpNode->hero;
-   if(tmpNode->next == NULL) {
-      delete tmpNode;
-      this->firstElement = NULL;
-      this->size--;
-      return tmpObj;
+   if(isEmpty()) {
+        return {-1,0,0,0};
    }else {
-      tmpNode = tmpNode->next;
-      delete tmpNode->previus;
-      tmpNode->previus = NULL;
-      this->firstElement = tmpNode;
-      this->size--;
-      return tmpObj;
+        object hero = this->lastElement->hero;
+        Node* tmpNode = this->lastElement;
+        this->lastElement = this->lastElement->previus;
+        delete tmpNode;
+        this->size--;
+        return hero;
    }
 }

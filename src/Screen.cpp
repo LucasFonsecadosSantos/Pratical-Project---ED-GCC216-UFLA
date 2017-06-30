@@ -41,7 +41,7 @@ Screen::~Screen() {
 }
 
 string Screen::showMenuOptions() {
-   clear();
+   //clear();
    string text = "";
    text += "+===============================================+\n";
    text += "+                                               +\n";
@@ -83,7 +83,7 @@ List Screen::captureNewRegister(int lastID) {
       cin >> tmpHero.biografia;
       cout << "+-----------------------------------------------+\n";
       heroList.insertNewElement(tmpHero);
-      dataFile.write((char*) &tmpHero, sizeof(object));
+      //dataFile.write((char*) &tmpHero, sizeof(object));
       cout << "[!] NEW REGISTER ENTERED SUCCESFULLY!\n";
       cout << "[#] INSERT MORE [y/n]: ";
       cin >> option;
