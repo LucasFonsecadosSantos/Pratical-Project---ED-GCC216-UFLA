@@ -32,7 +32,8 @@
 #include "../include/System.h"
 #include "../include/Screen.h"
 #include "../include/Data.h"
-#include "../include/List.h"
+#include "../include/DataStructure/List.h"
+#include "../include/DataStructure/SequenceSet.h"
 
 
 using namespace std;

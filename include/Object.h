@@ -1,4 +1,6 @@
-/*
+/**
+ * \file Object.h
+ *
  * Pratical Project of Data Struct
  * (Estrutura de Dados GCC126 - UFLA (Universidade Federal de Lavras))
  *
@@ -28,15 +30,26 @@
 #ifndef OBJECT_TYPE_H
 #define OBJECT_TYPE_H 1
 
+/**
+ * Setting namespace std;
+ */
 using namespace std;
 
+
+/**
+ * Object hero struct to will be used by the software.
+ * He contains a integer identification number (id),
+ * name string represented by char nome attribute,
+ * skills level represented by char poderes and 
+ * bio represents by char biografia.
+ *
+ * \typedef object
+ */
 struct object { 
   int id; 
   char nome[50]; 
   char poderes[50];
   char biografia[200]; 
 };
-
-
 
 #endif

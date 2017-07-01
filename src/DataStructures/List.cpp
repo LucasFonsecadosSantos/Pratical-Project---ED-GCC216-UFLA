@@ -27,8 +27,8 @@
 #include <cstddef>
 #include <string>
 #include <iostream>
-#include "../include/List.h"
-#include "../include/Object.h"
+#include "../../include/DataStructure/List.h"
+#include "../../include/Object.h"
 
 using namespace std;
 
