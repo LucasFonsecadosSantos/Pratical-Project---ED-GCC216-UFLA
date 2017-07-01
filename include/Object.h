@@ -49,7 +49,8 @@ struct object {
   int id; 
   char nome[50]; 
   char poderes[50];
-  char biografia[200]; 
+  char biografia[200];
+  int level;
 };
 
 #endif

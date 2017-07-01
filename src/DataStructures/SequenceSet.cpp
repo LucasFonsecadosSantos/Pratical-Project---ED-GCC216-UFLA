@@ -81,7 +81,14 @@ SequenceSet::~SequenceSet() {
  */
 void SequenceSet::insert(object hero) {
     if(!isEmpty()) {
-        
+        Node* tmpNode = this->begin;
+        for(int i=0; i<this->nodeCapacity; i++) {
+            if(hero.level <= tmpNode->contentData[i].level) {
+                if(tmpNode->validRecords < this->nodeCapacity) {
+                    
+                }
+            }
+        }
     }else {
         this->begin = new Node(this->nodeCapacity);
         this->sequenceSetHeader[0]++; //Nodes amount;

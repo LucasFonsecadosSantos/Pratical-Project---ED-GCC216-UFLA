@@ -28,7 +28,7 @@
 #include <fstream>
 #include <iostream>
 #include "../include/Screen.h"
-#include "../include/List.h"
+#include "../include/DataStructure/List.h"
 
 using namespace std;
 
@@ -81,6 +81,8 @@ List Screen::captureNewRegister(int lastID) {
       cin >> tmpHero.poderes;
       cout << "[#] BIOGRAPHY: ";
       cin >> tmpHero.biografia;
+      cout << "[#] LEVEL: ";
+      cin >> tmpHero.level;
       cout << "+-----------------------------------------------+\n";
       heroList.insertNewElement(tmpHero);
       //dataFile.write((char*) &tmpHero, sizeof(object));
