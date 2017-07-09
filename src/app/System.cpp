@@ -25,9 +25,11 @@
 #include "../../include/util/GUI.h"
 #include "../../include/util/Data.h"
 #include <iostream>
+#include <string>
 
 System::System() {
     this->gui = new GUI();
+    this->data = new Data();
 }
 
 System::~System() {
@@ -35,11 +37,36 @@ System::~System() {
 }
 
 void System::execute() {
-    std::cout << "teste";
+    int option = 0;
+    while(option != 99) {
+        switch(this->gui->captureMenu()) {
+            case 1:
+                addNewRecord();
+                break;
+            case 2:
+                removeRecord();
+                break;
+            case 3:
+                searchRecord();
+                break;
+            case 4:
+                printAllRecords();
+                break;
+            case 5:
+                printOrderedAllRecords();
+                break;
+            case 99:
+                //option = this->gui->confirmExit();
+                break;
+            default:
+                std::cout << "[X] TYPE A VALID OPTION!";
+                break;
+        }
+    }
 }
 
 void System::addNewRecord() {
-    
+    List<string>* newRecordsData = this->gui->captureAddNewRecord();
 }
 
 void System::removeRecord() {

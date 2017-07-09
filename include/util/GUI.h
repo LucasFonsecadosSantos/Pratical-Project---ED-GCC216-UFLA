@@ -34,8 +34,8 @@ class GUI {
     public:
         GUI();
         ~GUI();
-        int showMenu();
-        List<std::string> captureAddNewRecord();
+        int captureMenu();
+        List<std::string>* captureAddNewRecord();
         void clear();
 };
 

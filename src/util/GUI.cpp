@@ -22,52 +22,106 @@
  * object.
  */
 #include "../../include/util/GUI.h"
+#include "../../include/util/data_structure/List.h"
 #include <stdlib.h>
 #include <iostream>
+#include <string>
 
+/**
+ *  Graphical user interface object constructor.
+ */
 GUI::GUI() {
     
 }
 
+/**
+ *  Graphical user interface object destructor.
+ */
 GUI::~GUI() {
 
 }
 
-int GUI::showMenu() {
+/**
+ *  This method is responsible for the capture all informations
+ *  about new hero records entered by the user.
+ *
+ *  \return int Option integer value.
+ */
+int GUI::captureMenu() {
     clear();
-    std::cout << "+===================================================+";
-    std::cout << "+            __  __   _   _____   _____ _           +";
-    std::cout << "+           |  \/  | /_\ | _ \ \ / / __| |          +";
-    std::cout << "+           | |\/| |/ _ \|   /\ V /| _|| |__        +";
-    std::cout << "+           |_|  |_/_/ \_\_|_\ \_/ |___|___ |       +";
-    std::cout << "+                 Records System Data               +";
-    std::cout << "+                                                   +";
-    std::cout << "+===================================================+";
-    std::cout << "+                                                   +";
-    std::cout << "+ MARVEL DATA SYSTEM V2.0                           +";
-    std::cout << "+                                                   +";
-    std::cout << "+ Lucas Fonseca dos Santos              (201712078) +";
-    std::cout << "+ Matheus Henrique Ribeiro de Souza     (201611125) +";
-    std::cout << "+ Mayra Cristiane                       (201621249) +";
-    std::cout << "+                                                   +";
-    std::cout << "+===================================================+";
-    std::cout << "+                                                   +";
-    std::cout << "+ WHAT DO YOU WANT HERE?                            +";
-    std::cout << "+ [1] Register a new hero;                          +";
-    std::cout << "+ [2] Remove a hero;                                +";
-    std::cout << "+ [3] Search a hero record;                         +";
-    std::cout << "+ [4] Prints all records;                           +";
-    std::cout << "+ [5] Prints ordered records;                       +";
-    std::cout << "+                                                   +";
-    std::cout << "+ [99] EXIT;                                        +";
-    std::cout << "+                                                   +";
-    std::cout << "+===================================================+";
+    std::cout << "+===================================================+\n";
+    std::cout << "+            __  __   _   _____   _____ _           +\n";
+    std::cout << "+               |  \/  | /_\ | _ \ \ / / __| |          +\n";
+    std::cout << "+              | |\/| |/ _ \|   /\ V /| _|| |__        +\n";
+    std::cout << "+               |_|  |_/_/ \_\_|_\ \_/ |___|___ |       +\n";
+    std::cout << "+                 Records System Data               +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ MARVEL DATA SYSTEM V2.0                           +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ Lucas Fonseca dos Santos              (201712078) +\n";
+    std::cout << "+ Matheus Henrique Ribeiro de Souza     (201611125) +\n";
+    std::cout << "+ Mayra Cristiane                       (201621249) +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ WHAT DO YOU WANT HERE?                            +\n";
+    std::cout << "+ [1] Register a new hero;                          +\n";
+    std::cout << "+ [2] Remove a hero;                                +\n";
+    std::cout << "+ [3] Search a hero record;                         +\n";
+    std::cout << "+ [4] Prints all records;                           +\n";
+    std::cout << "+ [5] Prints ordered records;                       +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [99] EXIT;                                        +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
     std::cout << "[#] TYPE WHAT YOU WANT: ";
     int option;
     std::cin >> option;
     return option;
 }
 
+/**
+ *  This method is responsible for the capture all informations
+ *  about new hero records entered by the user.
+ *
+ *  \return List<std::string> List data structure with all hero informations.
+ */
+List<std::string>* GUI::captureAddNewRecord() {
+    clear();
+    std::string auxString;
+    List<std::string>* informations = new List<std::string>();
+    char option = 'y';
+    do {
+        std::cout << "+===================================================+\n";
+        std::cout << "+ ADD NEW MARVEL HERO                               +\n";
+        std::cout << "+===================================================+\n";
+        std::cout << "[!] ENTER THE FOLLOWING INFORMATIONS:\n";
+        std::cout << "[#] HERO NAME: ";
+        std::cin >> auxString;
+        //informations->add(auxString);
+        std::cout << "[#] HERO SKILLS: ";
+        std::cin >> auxString;
+        // informations->add(auxString);
+        std::cout << "[#] HERO BIOGRAPHY: ";
+        std::cin >> auxString;
+        // informations->add(auxString);
+        std::cout << "[#] HERO POWER LEVEL (enter a integer value): ";
+        std::cin >> auxString;
+        // informations->add(auxString);
+        std::cout << "+===================================================+\n";
+        std::cout << "[#] DO YOU WANT TO ADD A NEW HEROS? [N/y]: ";
+        std::cin >> option;
+    }while(option == 'y');
+
+    return informations;
+}
+
+/**
+ *  This method is responsible for does cleaning the console screen.
+ *  He applys the reset linux bash command.
+ */
 void GUI::clear() {
    system("reset");
 }
