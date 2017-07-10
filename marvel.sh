@@ -27,6 +27,7 @@ g++ -c LinkedList.cpp
 mv LinkedList.o ../../../build/
 #mv SequenceSet.o ../../../build/
 echo "";
+echo "[#] DONE!";
 echo "+-----------------------------------+";
 echo "[#] Compiling util folder...";
 echo "";
@@ -36,6 +37,7 @@ mv Data.o ../../build/
 mv GUI.o ../../build/
 mv Logger.o ../../build/
 echo "";
+echo "[#] DONE!";
 echo "+-----------------------------------+";
 echo "[#] Compiling app folder...";
 echo "";
@@ -43,6 +45,7 @@ cd ../app/
 g++ -c *.cpp
 mv System.o ../../build
 echo "";
+echo "[#] DONE!";
 echo "+-----------------------------------+";
 echo "[#] Compiling src folder...";
 echo "";
@@ -50,14 +53,17 @@ cd ../
 g++ -c *.cpp
 mv Main.o ../build/
 echo "";
+echo "[#] DONE!";
 echo "+-----------------------------------+";
 echo "[#] Returning the directories..."
+echo "[#] Copying the marvel executable file...";
 echo "";
 cd ../build/
 g++ *.o -o marvel
 rm -r *.o
 mv marvel ../
 echo "";
+echo "[#] DONE!";
 echo "+-----------------------------------+";
 echo "[#] Object files deleted...";
 echo "[#] Successfully compiled code!";

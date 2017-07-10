@@ -33,8 +33,8 @@ using namespace std;
  *  Data object constructor
  */
 Data::Data() {
-    this->inFile = ifstream("../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
-    this->outFile = ofstream("../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    this->inFile = ifstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    this->outFile = ofstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
 }
 
 /**
