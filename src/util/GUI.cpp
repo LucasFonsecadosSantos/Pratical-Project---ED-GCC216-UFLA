@@ -22,7 +22,9 @@
  * object.
  */
 #include "../../include/util/GUI.h"
-#include "../../include/util/data_structure/List.h"
+#include "../../include/util/data_structure/LinkedList.h"
+#include "../../include/app/Object.h"
+#include "data_structure/LinkedList.cpp"
 #include <stdlib.h>
 #include <iostream>
 #include <string>
@@ -48,13 +50,13 @@ GUI::~GUI() {
  *  \return int Option integer value.
  */
 int GUI::captureMenu() {
-    clear();
+    
     std::cout << "+===================================================+\n";
-    std::cout << "+            __  __   _   _____   _____ _           +\n";
-    std::cout << "+               |  \/  | /_\ | _ \ \ / / __| |          +\n";
-    std::cout << "+              | |\/| |/ _ \|   /\ V /| _|| |__        +\n";
-    std::cout << "+               |_|  |_/_/ \_\_|_\ \_/ |___|___ |       +\n";
-    std::cout << "+                 Records System Data               +\n";
+    std::cout << "+            __  __   _   _____   _____ __          +\n";
+    std::cout << "+           |  \\/  | /_\\ | _ \\ \\ / / __| |          +\n";
+    std::cout << "+           | |\\/| |/ _ \\|   / \\ V /| _|| |__       +\n";
+    std::cout << "+           |_|  |_/_/ \\_\\_|_\\ \\_/ |___|___ |       +\n";
+    std::cout << "+                Records System Data                +\n";
     std::cout << "+                                                   +\n";
     std::cout << "+===================================================+\n";
     std::cout << "+                                                   +\n";
@@ -86,36 +88,34 @@ int GUI::captureMenu() {
  *  This method is responsible for the capture all informations
  *  about new hero records entered by the user.
  *
- *  \return List<std::string> List data structure with all hero informations.
+ *  \return LinkedList<std::string> LinkedList data structure with all hero informations.
  */
-List<std::string>* GUI::captureAddNewRecord() {
-    clear();
-    std::string auxString;
-    List<std::string>* informations = new List<std::string>();
+LinkedList<hero> GUI::captureAddNewRecord() {
+    LinkedList<hero>* informations = new LinkedList<hero>();
     char option = 'y';
     do {
+        clear();
         std::cout << "+===================================================+\n";
         std::cout << "+ ADD NEW MARVEL HERO                               +\n";
         std::cout << "+===================================================+\n";
         std::cout << "[!] ENTER THE FOLLOWING INFORMATIONS:\n";
+        hero newHero;
         std::cout << "[#] HERO NAME: ";
-        std::cin >> auxString;
-        //informations->add(auxString);
+        std::cin.ignore();
+        std::cin.getline(newHero.nome, 50);
         std::cout << "[#] HERO SKILLS: ";
-        std::cin >> auxString;
-        // informations->add(auxString);
+        std::cin.getline(newHero.poderes, 50);
         std::cout << "[#] HERO BIOGRAPHY: ";
-        std::cin >> auxString;
-        // informations->add(auxString);
+        std::cin.getline(newHero.biografia, 50);
         std::cout << "[#] HERO POWER LEVEL (enter a integer value): ";
-        std::cin >> auxString;
-        // informations->add(auxString);
+        std::cin >> newHero.powerLevel;
         std::cout << "+===================================================+\n";
+        
+        informations->add(newHero);
         std::cout << "[#] DO YOU WANT TO ADD A NEW HEROS? [N/y]: ";
         std::cin >> option;
     }while(option == 'y');
-
-    return informations;
+    return *informations;
 }
 
 /**

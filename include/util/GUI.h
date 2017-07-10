@@ -24,7 +24,8 @@
 #ifndef GUI_TYPE_H
 #define GUI_TYPE_H 1
 
-#include "data_structure/List.h"
+#include "../app/Object.h"
+#include "data_structure/LinkedList.h"
 #include <string>
 
 class GUI {
@@ -35,7 +36,7 @@ class GUI {
         GUI();
         ~GUI();
         int captureMenu();
-        List<std::string>* captureAddNewRecord();
+        LinkedList<hero> captureAddNewRecord();
         void clear();
 };
 

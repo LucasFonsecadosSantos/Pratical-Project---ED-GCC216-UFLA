@@ -24,8 +24,10 @@
 #ifndef DATA_TYPE_H
 #define DATA_TYPE_H 1
 
-#include "data_structure/List.h"
+#include "data_structure/LinkedList.h"
+#include "../app/Object.h"
 #include <fstream>
+#define SUCCESSFULLY_OPERATION_MESSAGE "[!] SUCCESSFULLY OPERATION!"
 
 using namespace std;
 
@@ -38,6 +40,7 @@ class Data {
     public:
         Data();
         ~Data();
+        std::string saveHeros(LinkedList<hero> heros);
 };
 
 #endif

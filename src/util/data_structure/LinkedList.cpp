@@ -1,5 +1,5 @@
 /**
- * \file List.cpp
+ * \file LinkedList.cpp
  *
  * Pratical Project of Data Struct
  * (Estrutura de Dados GCC126 - UFLA (Universidade Federal de Lavras))
@@ -17,14 +17,20 @@
  *
  *
  * *********************************************************************
- * [List.cpp]
+ * [LinkedList.cpp]
  * This header file contains signatures of the methods of the Data
  * object.
  */
-#include "../../../include/util/data_structure/List.h"
+#include "../../../include/util/data_structure/LinkedList.h"
 #include <stdlib.h>
 #include <iostream>
 
+/**
+ *  Node object constructor.
+ *  He attributes the content, next and previus attribute states.
+ *
+ *  /param TYPE Generic type parameter to node content.
+ */
 template<typename TYPE>
 Node<TYPE>::Node(TYPE content) {
     this->content = content;
@@ -32,25 +38,39 @@ Node<TYPE>::Node(TYPE content) {
     this->previus = NULL;
 }
 
+/**
+ *  Node object destructor.
+ */
 template<typename TYPE>
 Node<TYPE>::~Node() {
 
 }
 
+/**
+ *  LinkedList object constructor.
+ *  He attributes states to size, firstElement and lastElement attributes.
+ *
+ */
 template<typename TYPE>
-List<TYPE>::List() {
+LinkedList<TYPE>::LinkedList() {
     this->size = 0;
     this->firstElement = NULL;
     this->lastElement = NULL;
 }
 
+/**
+ *  LinkedList data structure object destructor.
+ */
 template<typename TYPE>
-List<TYPE>::~List() {
+LinkedList<TYPE>::~LinkedList() {
 
 }
 
+/**
+ *  This method is responsible
+ */
 template<typename TYPE>
-void List<TYPE>::add(TYPE content) {
+void LinkedList<TYPE>::add(TYPE content) {
     if(this->size == 0) {
         this->firstElement = new Node<TYPE>(content);
         this->lastElement = this->firstElement;
@@ -64,19 +84,21 @@ void List<TYPE>::add(TYPE content) {
 }
 
 template<typename TYPE>
-TYPE List<TYPE>::remove() {
+TYPE LinkedList<TYPE>::remove() {
     if(!isEmpty()) {
         TYPE tmpType = this->firstElement->content;
         if(this->firstElement->next != NULL) {
             this->firstElement = this->firstElement->next;
             delete this->firstElement->previus;
             this->firstElement->previus = NULL;
+            this->size--;
         }else {
             delete this->firstElement;
             this->firstElement = NULL;
             this->lastElement = NULL;
+            this->size--;
         }
-        this->size--;
+        
         return tmpType;
     }else {
         throw;
@@ -84,11 +106,11 @@ TYPE List<TYPE>::remove() {
 }
 
 template<typename TYPE>
-inline int List<TYPE>::getSize() {
+inline int LinkedList<TYPE>::getSize() {
     return this->size;
 }
 
 template<typename TYPE>
-inline bool List<TYPE>::isEmpty() {
+inline bool LinkedList<TYPE>::isEmpty() {
     return (this->size == 0);
 }

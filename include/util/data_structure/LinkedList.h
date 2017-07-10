@@ -1,5 +1,5 @@
 /**
- * \file List.h
+ * \file LinkedList.h
  *
  * Pratical Project of Data Struct
  * (Estrutura de Dados GCC126 - UFLA (Universidade Federal de Lavras))
@@ -17,20 +17,20 @@
  *
  *
  * *********************************************************************
- * [List.h]
+ * [LinkedList.h]
  * This header file contains signatures of the methods of the Data
  * object.
  */
-#ifndef LIST_TYPE_H
-#define LIST_TYPE_H 1
+#ifndef LinkedList_TYPE_H
+#define LinkedList_TYPE_H 1
 
 template<typename TYPE>
-class List;
+class LinkedList;
 
 template<typename TYPE>
 class Node {
 
-    friend class List<TYPE>;
+    friend class LinkedList<TYPE>;
 
     private:
         
@@ -49,7 +49,7 @@ class Node {
 };
 
 template<typename TYPE>
-class List {
+class LinkedList {
 
     private:
         
@@ -61,9 +61,9 @@ class List {
 
     public:
         
-        List<TYPE>();
+        LinkedList<TYPE>();
         
-        ~List<TYPE>();
+        ~LinkedList<TYPE>();
 
         void add(TYPE);
 

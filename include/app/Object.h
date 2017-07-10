@@ -33,7 +33,7 @@
  *
  * \typedef object
  */
-struct object {
+struct hero {
     int id;
     char nome[50];
     char poderes[50];

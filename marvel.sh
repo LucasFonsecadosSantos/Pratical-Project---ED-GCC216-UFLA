@@ -20,42 +20,44 @@ echo "[#] Now, let's go JULIANA! Welcome!'";
 echo "[#] Compiling...";
 echo "";
 echo "+-----------------------------------+";
-echo "[#] Compiling src folder...";
+echo "[#] Compiling data structure folder...";
 echo "";
-cd src/
-g++ -c *.cpp
-mv Main.o ../build/
-echo "";
-echo "+-----------------------------------+";
-echo "[#] Compiling app folder...";
-echo "";
-cd app/
-g++ -c *.cpp
-mv System.o ../../build
+cd src/util/data_structure
+g++ -c LinkedList.cpp
+mv LinkedList.o ../../../build/
+#mv SequenceSet.o ../../../build/
 echo "";
 echo "+-----------------------------------+";
 echo "[#] Compiling util folder...";
 echo "";
-cd ../util/
+cd ../
 g++ -c *.cpp
 mv Data.o ../../build/
 mv GUI.o ../../build/
 mv Logger.o ../../build/
 echo "";
 echo "+-----------------------------------+";
-echo "[#] Compiling data structure folder...";
+echo "[#] Compiling app folder...";
 echo "";
-cd data_structure
-g++ -c List.cpp
-mv List.o ../../../build/
-#mv SequenceSet.o ../../../build/
+cd ../app/
+g++ -c *.cpp
+mv System.o ../../build
+echo "";
+echo "+-----------------------------------+";
+echo "[#] Compiling src folder...";
+echo "";
+cd ../
+g++ -c *.cpp
+mv Main.o ../build/
 echo "";
 echo "+-----------------------------------+";
 echo "[#] Returning the directories..."
 echo "";
-cd ../../../build/
+cd ../build/
 g++ *.o -o marvel
 rm -r *.o
+mv marvel ../
 echo "";
+echo "+-----------------------------------+";
 echo "[#] Object files deleted...";
 echo "[#] Successfully compiled code!";

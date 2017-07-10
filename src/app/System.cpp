@@ -23,7 +23,9 @@
  */
 #include "../../include/app/System.h"
 #include "../../include/util/GUI.h"
+#include "../../include/app/Object.h"
 #include "../../include/util/Data.h"
+#include "../util/data_structure/LinkedList.cpp"
 #include <iostream>
 #include <string>
 
@@ -66,7 +68,8 @@ void System::execute() {
 }
 
 void System::addNewRecord() {
-    List<string>* newRecordsData = this->gui->captureAddNewRecord();
+    LinkedList<hero> newRecordsData = this->gui->captureAddNewRecord();
+    std::cout << this->data->saveHeros(newRecordsData);
 }
 
 void System::removeRecord() {
