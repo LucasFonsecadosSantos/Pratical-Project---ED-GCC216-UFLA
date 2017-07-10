@@ -119,6 +119,23 @@ LinkedList<hero> GUI::captureAddNewRecord() {
 }
 
 /**
+ *
+ */
+void GUI::showHeroes(LinkedList<hero> heroes) {
+    clear();
+    std::cout << "+===================================================+\n";
+    std::cout << "+ HEROES STORED IN THE SYSTEM                       +\n";
+    std::cout << "+===================================================+\n";
+    hero tmpHero;
+    std::string tmp;
+    for(int i = heroes.getSize(); i >= 0; i--) {
+        tmpHero = heroes.remove();
+        std::cout << "[!] HERO NAME: " + (std::string) tmpHero.nome;
+        std::cout << "+---------------------------------------------------+\n";
+    }
+}
+
+/**
  *  This method is responsible for does cleaning the console screen.
  *  He applys the reset linux bash command.
  */

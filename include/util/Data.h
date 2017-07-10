@@ -31,16 +31,58 @@
 
 using namespace std;
 
+/**
+ *  This class describes the data object. He is responsible
+ *  for access and manipulates all informations about the data
+ *  base binary files.
+ */
 class Data {
 
     private:
+        
+        /**
+         * Ifstream object attribute.
+         *
+         * \var inFile
+         */
         ifstream inFile;
+
+        /**
+         * Ofstream object attribute.
+         *
+         * \var outFile
+         */
         ofstream outFile;
 
     public:
+
+        /**
+         * Data object constructor.
+         */
         Data();
+
+        /**
+         * Data object destructor.
+         */
         ~Data();
-        std::string saveHeros(LinkedList<hero> heros);
+
+        /**
+         * This method is responsible for store new heroes entered
+         * by the user, received by hero Linked list parameter.
+         *
+         * \param LinkedList<hero> Hero linked list structure.
+         * \return std::string Successfully message string.
+         * 
+         */
+        std::string saveHeros(LinkedList<hero>);
+        
+        /**
+         * This method returns for the user all heros stored
+         * at binary database files by a hero object Linked List.
+         * 
+         * \return LinkedList<hero> Linked list with all heroes loaded.
+         */
+        LinkedList<hero> recoveryHeroes();
 };
 
 #endif

@@ -29,15 +29,28 @@
 #include <iostream>
 #include <string>
 
+/**
+ *  System object constructor.
+ *  It instantiates the GUI and Data objects
+ *  for the system attributes.
+ */
 System::System() {
     this->gui = new GUI();
     this->data = new Data();
 }
 
+/**
+ * System object destructor.
+ */
 System::~System() {
 
 }
 
+/**
+ * This is the "main" method of the
+ * system. It is responsible for calls all
+ * other method as addNewRecord, removeRecords, etc.
+ */
 void System::execute() {
     int option = 0;
     while(option != 99) {
@@ -67,23 +80,42 @@ void System::execute() {
     }
 }
 
+/**
+ * This method is responsible for coordinating the add new heroes
+ * system operation. It calls the gui method to show informations
+ * about it and then, saves all data entered by the user, using a data
+ * object.
+ */
 void System::addNewRecord() {
     LinkedList<hero> newRecordsData = this->gui->captureAddNewRecord();
     std::cout << this->data->saveHeros(newRecordsData);
 }
 
+/**
+ *
+ */
 void System::removeRecord() {
 
 }
 
+/**
+ *
+ */
 void System::searchRecord() {
 
 }
 
+/**
+ *
+ */
 void System::printAllRecords() {
-
+    LinkedList<hero> storedHeroes = this->data->recoveryHeroes();
+    this->gui->showHeroes(storedHeroes);
 }
 
+/**
+ *
+ */
 void System::printOrderedAllRecords() {
 
 }

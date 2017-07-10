@@ -33,8 +33,8 @@ using namespace std;
  *  Data object constructor
  */
 Data::Data() {
-    this->inFile = ifstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
-    this->outFile = ofstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    this->inFile = ifstream("../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    this->outFile = ofstream("../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
 }
 
 /**
@@ -62,4 +62,18 @@ std::string Data::saveHeros(LinkedList<hero> newHeros) {
     }
     
     return SUCCESSFULLY_OPERATION_MESSAGE;
+}
+
+/**
+ *
+ */
+LinkedList<hero> Data::recoveryHeroes() {
+    LinkedList<hero>* heroesList = new LinkedList<hero>();
+    hero tmpHero;
+    this->inFile.read((char*) &tmpHero, sizeof(hero));
+    std::cout << tmpHero.nome;
+    while(this->inFile.read((char*) &tmpHero, sizeof(hero))) {
+        heroesList->add(tmpHero);
+    }
+    return *heroesList;
 }

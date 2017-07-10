@@ -24,55 +24,112 @@
 #ifndef LinkedList_TYPE_H
 #define LinkedList_TYPE_H 1
 
+/**
+ *
+ */
 template<typename TYPE>
 class LinkedList;
 
+/**
+ *
+ */
 template<typename TYPE>
 class Node {
 
+    /**
+     *
+     */
     friend class LinkedList<TYPE>;
 
     private:
-        
+
+        /**
+         *
+         */   
         Node<TYPE>* next;
         
+        /**
+         *
+         */
         Node<TYPE>* previus;
         
+        /**
+         *
+         */
         TYPE content;
     
     public:
-
+        
+        /**
+         *
+         */
         Node<TYPE>(TYPE content);
         
+        /**
+         *
+         */
         ~Node<TYPE>();
 
 };
 
+/**
+ *
+ */
 template<typename TYPE>
 class LinkedList {
 
     private:
-        
+
+        /**
+         *
+         */    
         Node<TYPE>* firstElement;
 
+        /**
+         *
+         */
         Node<TYPE>* lastElement;
 
+        /**
+         *
+         */
         int size;
 
     public:
         
+        /**
+         *
+         */
         LinkedList<TYPE>();
         
+        /**
+         *
+         */
         ~LinkedList<TYPE>();
 
+        /**
+         *
+         */
         void add(TYPE);
 
+        /**
+         *
+         */
         void remove(TYPE);
 
+        /**
+         *
+         */
         TYPE remove();
 
+        /**
+         *
+         */
         inline int getSize();
 
+        /**
+         *
+         */
         inline bool isEmpty();
 };
 

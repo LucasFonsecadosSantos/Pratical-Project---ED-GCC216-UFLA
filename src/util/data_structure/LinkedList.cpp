@@ -83,6 +83,9 @@ void LinkedList<TYPE>::add(TYPE content) {
     }
 }
 
+/**
+ *
+ */
 template<typename TYPE>
 TYPE LinkedList<TYPE>::remove() {
     if(!isEmpty()) {
@@ -105,6 +108,9 @@ TYPE LinkedList<TYPE>::remove() {
     }
 }
 
+/**
+ *
+ */
 template<typename TYPE>
 inline int LinkedList<TYPE>::getSize() {
     return this->size;
