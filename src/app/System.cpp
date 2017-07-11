@@ -110,10 +110,10 @@ void System::searchRecord() {
  */
 void System::printAllRecords() {
     LinkedList<hero> storedHeroes = this->data->recoveryHeroes();
-    for(int i = storedHeroes.getSize(); i >= 0; i--) {
+    /*for(int i = storedHeroes.getSize(); i >= 0; i--) {
         std::cout << storedHeroes.remove().nome;
     }
-    this->gui->showHeroes(storedHeroes);
+    this->gui->showHeroes(storedHeroes);*/
 }
 
 /**

@@ -55,17 +55,24 @@ Data::~Data() {
  */
 std::string Data::saveHeros(LinkedList<hero> newHeros) {
     hero tmpHero;
-    this->outFile.open("./data/data.dat", std::fstream::in | std::fstream::out | std::fstream::app);
+    this->outFile.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
     if(!this->outFile.is_open()) {
-        std::cerr << "bosta";
+        std::cerr << "teste";
         
     }
+    tmpHero.powerLevel = 4;
+    tmpHero.nome[0] = 'a';
+    tmpHero.biografia[1] = 'b';
+    tmpHero.poderes[2] = 'm';
+    tmpHero.powerLevel = 4;
+    this->outFile.write((char*) &tmpHero, sizeof(hero));
+    /*
     for(int i = newHeros.getSize(); i > 0; i--) {
         cout << i;
         tmpHero = newHeros.remove();
         cout << tmpHero.nome;
         this->outFile.write((char*) &tmpHero, sizeof(hero));
-    }
+    }*/
     
     return SUCCESSFULLY_OPERATION_MESSAGE;
 }
@@ -78,11 +85,9 @@ LinkedList<hero> Data::recoveryHeroes() {
     hero tmpHero;
     this->inFile.open("./data/data.dat", std::fstream::in | std::fstream::out | std::fstream::app);
     if(!this->inFile.is_open()) {
-        std::cerr << "bostinha2";
+        std::cerr << "teste";
     }
-    tmpHero.powerLevel = 4;
     //this->inFile.read((char*) &tmpHero, sizeof(hero));
-    std::cout << tmpHero.powerLevel;
     while(this->inFile.read((char*) &tmpHero, sizeof(hero))) {
         heroesList->add(tmpHero);
         std::cout << "caiu aquui";
