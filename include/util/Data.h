@@ -45,14 +45,14 @@ class Data {
          *
          * \var inFile
          */
-        ifstream inFile;
+        fstream inFile;
 
         /**
          * Ofstream object attribute.
          *
          * \var outFile
          */
-        ofstream outFile;
+        fstream outFile;
 
     public:
 

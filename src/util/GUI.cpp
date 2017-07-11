@@ -122,7 +122,7 @@ LinkedList<hero> GUI::captureAddNewRecord() {
  *
  */
 void GUI::showHeroes(LinkedList<hero> heroes) {
-    clear();
+    
     std::cout << "+===================================================+\n";
     std::cout << "+ HEROES STORED IN THE SYSTEM                       +\n";
     std::cout << "+===================================================+\n";

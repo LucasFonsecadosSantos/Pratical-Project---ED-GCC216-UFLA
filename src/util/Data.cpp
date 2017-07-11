@@ -33,8 +33,9 @@ using namespace std;
  *  Data object constructor
  */
 Data::Data() {
-    this->inFile = ifstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
-    this->outFile = ofstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    //this->inFile = fstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    //this->outFile = fstream("../../data/data.dat", ios_base::in|ios_base::out|ios_base::binary|ios_base::app);
+    
 }
 
 /**
@@ -53,12 +54,17 @@ Data::~Data() {
  * \return
  */
 std::string Data::saveHeros(LinkedList<hero> newHeros) {
-    hero tmpHero;   
+    hero tmpHero;
+    this->outFile.open("./data/data.dat", std::fstream::in | std::fstream::out | std::fstream::app);
+    if(!this->outFile.is_open()) {
+        std::cerr << "bosta";
+        
+    }
     for(int i = newHeros.getSize(); i > 0; i--) {
         cout << i;
         tmpHero = newHeros.remove();
         cout << tmpHero.nome;
-        outFile.write((char*) &tmpHero, sizeof(hero));
+        this->outFile.write((char*) &tmpHero, sizeof(hero));
     }
     
     return SUCCESSFULLY_OPERATION_MESSAGE;
@@ -70,10 +76,19 @@ std::string Data::saveHeros(LinkedList<hero> newHeros) {
 LinkedList<hero> Data::recoveryHeroes() {
     LinkedList<hero>* heroesList = new LinkedList<hero>();
     hero tmpHero;
-    this->inFile.read((char*) &tmpHero, sizeof(hero));
-    std::cout << tmpHero.nome;
+    this->inFile.open("./data/data.dat", std::fstream::in | std::fstream::out | std::fstream::app);
+    if(!this->inFile.is_open()) {
+        std::cerr << "bostinha2";
+    }
+    tmpHero.powerLevel = 4;
+    //this->inFile.read((char*) &tmpHero, sizeof(hero));
+    std::cout << tmpHero.powerLevel;
     while(this->inFile.read((char*) &tmpHero, sizeof(hero))) {
         heroesList->add(tmpHero);
+        std::cout << "caiu aquui";
+    }
+    for(int i=heroesList->getSize(); i >=0; i--) {
+        std::cout << heroesList->remove().nome;
     }
     return *heroesList;
 }

@@ -23,6 +23,7 @@
  */
 #include <iostream>
 #include "../include/app/System.h"
+#include <string>
 
 /**
  *
