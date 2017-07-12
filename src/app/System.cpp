@@ -71,7 +71,7 @@ void System::execute() {
                 printOrderedAllRecords();
                 break;
             case 99:
-                //option = this->gui->confirmExit();
+                option = this->gui->confirmExit();
                 break;
             default:
                 std::cout << "[X] TYPE A VALID OPTION!";

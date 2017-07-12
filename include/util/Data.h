@@ -27,7 +27,7 @@
 #include "data_structure/LinkedList.h"
 #include "../app/Object.h"
 #include <fstream>
-#define SUCCESSFULLY_OPERATION_MESSAGE "[!] SUCCESSFULLY OPERATION!"
+#define SUCCESSFULLY_OPERATION_MESSAGE "[!] SUCCESSFULLY OPERATION!\n"
 
 using namespace std;
 
@@ -83,6 +83,8 @@ class Data {
          * \return LinkedList<hero> Linked list with all heroes loaded.
          */
         LinkedList<hero> recoveryHeroes();
+
+        void openLogFile();
 };
 
 #endif

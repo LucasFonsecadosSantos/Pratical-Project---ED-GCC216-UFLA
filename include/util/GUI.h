@@ -79,6 +79,8 @@ class GUI {
          *  This method cleans the console screen.
          */
         void clear();
+
+        int confirmExit();
 };
 
 #endif

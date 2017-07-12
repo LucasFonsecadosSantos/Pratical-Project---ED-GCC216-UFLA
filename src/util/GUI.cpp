@@ -142,3 +142,7 @@ void GUI::showHeroes(LinkedList<hero> heroes) {
 void GUI::clear() {
    system("reset");
 }
+
+int GUI::confirmExit() {
+
+}

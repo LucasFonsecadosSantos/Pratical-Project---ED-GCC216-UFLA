@@ -56,24 +56,17 @@ Data::~Data() {
 std::string Data::saveHeros(LinkedList<hero> newHeros) {
     hero tmpHero;
     this->outFile.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+
     if(!this->outFile.is_open()) {
         std::cerr << "teste";
-        
     }
-    tmpHero.powerLevel = 4;
-    tmpHero.nome[0] = 'a';
-    tmpHero.biografia[1] = 'b';
-    tmpHero.poderes[2] = 'm';
-    tmpHero.powerLevel = 4;
-    this->outFile.write((char*) &tmpHero, sizeof(hero));
-    /*
+
     for(int i = newHeros.getSize(); i > 0; i--) {
-        cout << i;
         tmpHero = newHeros.remove();
-        cout << tmpHero.nome;
         this->outFile.write((char*) &tmpHero, sizeof(hero));
-    }*/
-    
+    }
+    this->outFile.close();
+
     return SUCCESSFULLY_OPERATION_MESSAGE;
 }
 
@@ -81,19 +74,29 @@ std::string Data::saveHeros(LinkedList<hero> newHeros) {
  *
  */
 LinkedList<hero> Data::recoveryHeroes() {
+    
     LinkedList<hero>* heroesList = new LinkedList<hero>();
     hero tmpHero;
-    this->inFile.open("./data/data.dat", std::fstream::in | std::fstream::out | std::fstream::app);
+    this->inFile.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+
     if(!this->inFile.is_open()) {
         std::cerr << "teste";
     }
-    //this->inFile.read((char*) &tmpHero, sizeof(hero));
+    
     while(this->inFile.read((char*) &tmpHero, sizeof(hero))) {
         heroesList->add(tmpHero);
-        std::cout << "caiu aquui";
     }
-    for(int i=heroesList->getSize(); i >=0; i--) {
+    
+    std::cout << heroesList->getSize();
+    for(int i=heroesList->getSize(); i > 0; i--) {
+        std::cout << i;
         std::cout << heroesList->remove().nome;
     }
+    this->inFile.close();
+
     return *heroesList;
+}
+
+void Data::openLogFile() {
+
 }
