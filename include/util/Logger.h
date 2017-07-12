@@ -30,7 +30,7 @@
 class Logger {
 
     private:
-        Data data;
+        Data* data;
 
     public:
         Logger();

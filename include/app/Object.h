@@ -24,6 +24,8 @@
 #ifndef OBJECT_TYPE_H
 #define OBJECT_TYPE_H 1
 
+#include <string>
+
 /**
  * Object hero struct to will be used by the software.
  * He contains a integer identification number (id),
@@ -39,6 +41,17 @@ struct hero {
     char poderes[50];
     char biografia[50];
     int powerLevel;
+};
+
+enum  searchMode{
+    name,
+    id
+};
+
+struct choose {
+    searchMode mode;
+    int integerContent;
+    std::string stringContent;
 };
 
 #endif

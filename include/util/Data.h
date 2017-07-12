@@ -26,6 +26,7 @@
 
 #include "data_structure/LinkedList.h"
 #include "../app/Object.h"
+#include "Date.h"
 #include <fstream>
 #define SUCCESSFULLY_OPERATION_MESSAGE "[!] SUCCESSFULLY OPERATION!\n"
 
@@ -53,6 +54,22 @@ class Data {
          * \var outFile
          */
         fstream outFile;
+
+        /**
+         *  Date object attribute.
+         *  The data class needs a Date object to captures
+         *  the hour and system dates.
+         *
+         *  \var Date
+         */
+        //Date date;
+
+        /**
+         *
+         */
+        fstream inLogFile;
+
+        fstream outLogFile;
 
     public:
 
@@ -83,6 +100,8 @@ class Data {
          * \return LinkedList<hero> Linked list with all heroes loaded.
          */
         LinkedList<hero> recoveryHeroes();
+
+        void generateDayLogFile();
 
         void openLogFile();
 };

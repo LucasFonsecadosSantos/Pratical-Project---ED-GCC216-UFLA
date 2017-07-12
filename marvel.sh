@@ -34,6 +34,7 @@ echo "";
 cd ../
 g++ -c *.cpp
 mv Data.o ../../build/
+mv Date.o ../../build/
 mv GUI.o ../../build/
 mv Logger.o ../../build/
 echo "";

@@ -24,8 +24,10 @@
 #include "../../include/util/Data.h"
 #include "../../include/app/Object.h"
 #include "../../include/util/data_structure/LinkedList.h"
+#include "../../include/util/Date.h"
 #include "data_structure/LinkedList.cpp"
 #include <fstream>
+#include <cstddef>
 
 using namespace std;
 
@@ -50,13 +52,13 @@ Data::~Data() {
  *  created by the user. It receives a linked list heros data structure
  *  to stores this.
  *
- * \param
- * \return
+ * \param newHeroes Hero linked list data structure with all new heroes data records.
+ * \return std::string Operation status string.
  */
 std::string Data::saveHeros(LinkedList<hero> newHeros) {
+
     hero tmpHero;
     this->outFile.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-
     if(!this->outFile.is_open()) {
         std::cerr << "teste";
     }
@@ -71,32 +73,51 @@ std::string Data::saveHeros(LinkedList<hero> newHeros) {
 }
 
 /**
+ * This method recoverys all system database records for the user.
+ * It returns a hero linked list data structure with all heroes loaded.
  *
+ * \return LinkedList<hero> A hero linked list data structure wirh all heroes loaded.
  */
 LinkedList<hero> Data::recoveryHeroes() {
     
     LinkedList<hero>* heroesList = new LinkedList<hero>();
     hero tmpHero;
     this->inFile.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-
     if(!this->inFile.is_open()) {
         std::cerr << "teste";
     }
-    
     while(this->inFile.read((char*) &tmpHero, sizeof(hero))) {
         heroesList->add(tmpHero);
-    }
-    
-    std::cout << heroesList->getSize();
-    for(int i=heroesList->getSize(); i > 0; i--) {
-        std::cout << i;
-        std::cout << heroesList->remove().nome;
     }
     this->inFile.close();
 
     return *heroesList;
 }
 
+/**
+ * This method is responsible for initializer a new day text log file.
+ * He trys to open a day text log file and then, verifys if it has any
+ * content. If it doesn`t have content, he writes the header file with
+ * informations about the document.
+ */
+void Data::generateDayLogFile() {
+    this->outLogFile.open("./logs/teste.txt", std::fstream::app);
+    
+    if(!this->outLogFile.is_open()) {
+       this->outLogFile.open("./logs/teste.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
+       std::string initMessage = "teste";
+       this->outLogFile << "trd";
+       this->outLogFile.close();
+    }   
+}
+
 void Data::openLogFile() {
+    
+   // Date date;
+    //this->inFile.open("./logs/teste.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+
+}
+
+std::string storeLog(std::string message) {
 
 }

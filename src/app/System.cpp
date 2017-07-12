@@ -25,6 +25,7 @@
 #include "../../include/util/GUI.h"
 #include "../../include/app/Object.h"
 #include "../../include/util/Data.h"
+#include "../../include/util/Logger.h"
 #include "../util/data_structure/LinkedList.cpp"
 #include <iostream>
 #include <string>
@@ -37,6 +38,7 @@
 System::System() {
     this->gui = new GUI();
     this->data = new Data();
+    this->logger = new Logger();
 }
 
 /**
@@ -53,21 +55,25 @@ System::~System() {
  */
 void System::execute() {
     int option = 0;
+
     while(option != 99) {
         switch(this->gui->captureMenu()) {
             case 1:
                 addNewRecord();
                 break;
             case 2:
-                removeRecord();
+                editRecord();
                 break;
             case 3:
-                searchRecord();
+                removeRecord();
                 break;
             case 4:
-                printAllRecords();
+                searchRecord();
                 break;
             case 5:
+                printAllRecords();
+                break;
+            case 6:
                 printOrderedAllRecords();
                 break;
             case 99:
@@ -110,10 +116,7 @@ void System::searchRecord() {
  */
 void System::printAllRecords() {
     LinkedList<hero> storedHeroes = this->data->recoveryHeroes();
-    /*for(int i = storedHeroes.getSize(); i >= 0; i--) {
-        std::cout << storedHeroes.remove().nome;
-    }
-    this->gui->showHeroes(storedHeroes);*/
+    this->gui->showHeroes(storedHeroes);
 }
 
 /**
@@ -121,4 +124,13 @@ void System::printAllRecords() {
  */
 void System::printOrderedAllRecords() {
 
+}
+
+void System::editRecord() {
+    choose option = this->gui->captureEditRecord();
+    if(option.mode == id) {
+        
+    }else if(option.mode == name) {
+
+    }
 }

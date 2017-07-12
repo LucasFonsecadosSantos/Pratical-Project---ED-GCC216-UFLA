@@ -50,7 +50,7 @@ GUI::~GUI() {
  *  \return int Option integer value.
  */
 int GUI::captureMenu() {
-    
+    clear();
     std::cout << "+===================================================+\n";
     std::cout << "+            __  __   _   _____   _____ __          +\n";
     std::cout << "+           |  \\/  | /_\\ | _ \\ \\ / / __| |          +\n";
@@ -70,10 +70,16 @@ int GUI::captureMenu() {
     std::cout << "+                                                   +\n";
     std::cout << "+ WHAT DO YOU WANT HERE?                            +\n";
     std::cout << "+ [1] Register a new hero;                          +\n";
-    std::cout << "+ [2] Remove a hero;                                +\n";
-    std::cout << "+ [3] Search a hero record;                         +\n";
-    std::cout << "+ [4] Prints all records;                           +\n";
-    std::cout << "+ [5] Prints ordered records;                       +\n";
+    std::cout << "+ [2] Edit a hero;                                  +\n";
+    std::cout << "+ [3] Remove a hero;                                +\n";
+    std::cout << "+ [4] Search a hero record;                         +\n";
+    std::cout << "+ [5] Prints all records;                           +\n";
+    std::cout << "+ [6] Prints ordered records;                       +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [7] Delete all data files;                        +\n";
+    std::cout << "+ [8] Delete all log files;                         +\n";
+    std::cout << "+ [9] View log files content;                       +\n";
+    std::cout << "+ [10] ABOUT;                                       +\n";
     std::cout << "+                                                   +\n";
     std::cout << "+ [99] EXIT;                                        +\n";
     std::cout << "+                                                   +\n";
@@ -95,9 +101,7 @@ LinkedList<hero> GUI::captureAddNewRecord() {
     char option = 'y';
     do {
         clear();
-        std::cout << "+===================================================+\n";
-        std::cout << "+ ADD NEW MARVEL HERO                               +\n";
-        std::cout << "+===================================================+\n";
+        std::cout << header("ADD NEW MARVEL HERO");
         std::cout << "[!] ENTER THE FOLLOWING INFORMATIONS:\n";
         hero newHero;
         std::cout << "[#] HERO NAME: ";
@@ -122,15 +126,15 @@ LinkedList<hero> GUI::captureAddNewRecord() {
  *
  */
 void GUI::showHeroes(LinkedList<hero> heroes) {
-    
-    std::cout << "+===================================================+\n";
-    std::cout << "+ HEROES STORED IN THE SYSTEM                       +\n";
-    std::cout << "+===================================================+\n";
+    std::cout << header("HEROES STORED IN THE SYSTEM");
     hero tmpHero;
     std::string tmp;
     for(int i = heroes.getSize(); i >= 0; i--) {
         tmpHero = heroes.remove();
-        std::cout << "[!] HERO NAME: " + (std::string) tmpHero.nome;
+        std::cout << "[!] HERO NAME: " + (std::string) tmpHero.nome + "\n";
+        std::cout << "[!] HERO SKILLS: " + (std::string) tmpHero.poderes + "\n";
+        std::cout << "[!] HERO BIOGRAPHY: " + (std::string) tmpHero.biografia + "\n";
+        // std::cout << "[!] HERO POWER LEVEL: "+ tmpHero.powerLevel + "\n";
         std::cout << "+---------------------------------------------------+\n";
     }
 }
@@ -144,5 +148,43 @@ void GUI::clear() {
 }
 
 int GUI::confirmExit() {
+    return 1;
+}
 
+std::string GUI::header(std::string text) {
+    clear();
+    std::string s = "+===================================================+\n";
+    s += " "+text + "\n";
+    s += "+===================================================+\n";
+
+    return s;
+}
+
+choose GUI::captureEditRecord() {
+    choose option;
+    int opt;
+    std::cout << header("EDIT HERO RECORD");
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [CHOOSE YOU OPTION]:                              +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [1] Search a hero by name;                        +\n";
+    std::cout << "+ [2] Search a hero by id;                          +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
+    std::cout << "[#] ENTER THE MODE: ";
+    std::cin >> opt;
+    if(opt == 2) {
+        option.mode = id;
+        clear();
+        std::cout << "[#] TYPE THE HERO ID (Enter a integer value): ";
+        std::cin >> option.integerContent;
+    }else if(opt == 1){
+        option.mode = name;
+        clear();
+        std::cout << "[#] TYPE THE HERO NAME: ";
+        std::cin >> option.stringContent;
+    }else {
+        std::cout << "[X] ENTER A VALIDA VALUE!";
+    }
+    return option;
 }

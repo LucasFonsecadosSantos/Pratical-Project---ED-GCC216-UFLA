@@ -25,7 +25,8 @@
 #include "../../include/util/Data.h"
 
 Logger::Logger() {
-    //this->data = new Data();
+    this->data = new Data();
+    initializerLogger();
 }
 
 Logger::~Logger() {
@@ -33,10 +34,11 @@ Logger::~Logger() {
 }
 
 std::string Logger::initializerLogger() {
-    
+
+    this->data->generateDayLogFile();
 }
 
 std::string Logger::generateOperationLog(std::string message) {
-
+    return "x";
 }
 

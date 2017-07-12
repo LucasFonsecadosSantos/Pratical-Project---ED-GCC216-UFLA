@@ -36,6 +36,8 @@
 class GUI {
 
     private:
+
+        std::string header(std::string);
     
     public:
         
@@ -81,6 +83,8 @@ class GUI {
         void clear();
 
         int confirmExit();
+
+        choose captureEditRecord();
 };
 
 #endif

@@ -26,6 +26,7 @@
 
 #include "../util/GUI.h"
 #include "../util/Data.h"
+#include "../util/Logger.h"
 
 class System {
     
@@ -35,14 +36,8 @@ class System {
         
         Data* data;
 
-    public:
+        Logger* logger;
 
-        System();
-        
-        ~System();
-        
-        void execute();
-        
         void addNewRecord();
         
         void removeRecord();
@@ -52,6 +47,19 @@ class System {
         void printAllRecords();
         
         void printOrderedAllRecords();
+
+        void editRecord();
+
+        void about();
+
+    public:
+
+        System();
+        
+        ~System();
+        
+        void execute();
+        
 };
 
 #endif
