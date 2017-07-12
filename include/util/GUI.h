@@ -85,6 +85,8 @@ class GUI {
         int confirmExit();
 
         choose captureEditRecord();
+
+        choose captureRemoveRecord();
 };
 
 #endif

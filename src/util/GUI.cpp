@@ -160,6 +160,9 @@ std::string GUI::header(std::string text) {
     return s;
 }
 
+/**
+ * This method shows and captures
+ */
 choose GUI::captureEditRecord() {
     choose option;
     int opt;
@@ -169,6 +172,43 @@ choose GUI::captureEditRecord() {
     std::cout << "+                                                   +\n";
     std::cout << "+ [1] Search a hero by name;                        +\n";
     std::cout << "+ [2] Search a hero by id;                          +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
+    std::cout << "[#] ENTER THE MODE: ";
+    std::cin >> opt;
+    if(opt == 2) {
+        option.mode = id;
+        clear();
+        std::cout << "[#] TYPE THE HERO ID (Enter a integer value): ";
+        std::cin >> option.integerContent;
+    }else if(opt == 1){
+        option.mode = name;
+        clear();
+        std::cout << "[#] TYPE THE HERO NAME: ";
+        std::cin >> option.stringContent;
+    }else {
+        std::cout << "[X] ENTER A VALIDA VALUE!";
+    }
+    return option;
+}
+
+/**
+ *  This method is responsible for the informations capture about the
+ *  hero to remove him. He asks to the user a search mode that user wants.
+ *  It have two search modes: Search a hero by name and search a hero by id,
+ *  the both are a hero attribute states.
+ *
+ *  \return choose A struct with search mode and key to data research.
+ */
+choose GUI::captureRemoveRecord() {
+    choose option;
+    int opt;
+    std::cout << header("REMOVE A HERO DATA");
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [CHOOSE YOU OPTION]:                              +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [1] Remove a hero by name;                        +\n";
+    std::cout << "+ [2] Remove a hero by id;                          +\n";
     std::cout << "+                                                   +\n";
     std::cout << "+===================================================+\n";
     std::cout << "[#] ENTER THE MODE: ";

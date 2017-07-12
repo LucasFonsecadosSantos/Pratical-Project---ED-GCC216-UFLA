@@ -62,7 +62,6 @@ std::string Data::saveHeros(LinkedList<hero> newHeros) {
     if(!this->outFile.is_open()) {
         std::cerr << "teste";
     }
-
     for(int i = newHeros.getSize(); i > 0; i--) {
         tmpHero = newHeros.remove();
         this->outFile.write((char*) &tmpHero, sizeof(hero));

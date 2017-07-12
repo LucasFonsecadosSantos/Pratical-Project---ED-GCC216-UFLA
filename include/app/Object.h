@@ -33,6 +33,7 @@
  * skills level represented by char poderes and 
  * bio represents by char biografia.
  *
+ * \remark It contains 160 bytes.
  * \typedef object
  */
 struct hero {
@@ -43,6 +44,12 @@ struct hero {
     int powerLevel;
 };
 
+/**
+ * This enum type describes all modes that the user can use
+ * to search a data record for any operation as for exemple:
+ * search a hero by name to remove him or search a hero by id
+ * to edit him. This type contains two modes, name and id.
+ */
 enum  searchMode{
     name,
     id

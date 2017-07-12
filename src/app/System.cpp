@@ -39,6 +39,7 @@ System::System() {
     this->gui = new GUI();
     this->data = new Data();
     this->logger = new Logger();
+    
 }
 
 /**
@@ -101,14 +102,20 @@ void System::addNewRecord() {
  *
  */
 void System::removeRecord() {
+    LinkedList<hero> data = this->data->recoveryHeroes();
+    choose option = this->gui->captureRemoveRecord();
+    if(option.mode == id) {
+        
+    }else if(option.mode == name) {
 
+    }
 }
 
 /**
  *
  */
 void System::searchRecord() {
-
+    
 }
 
 /**
@@ -129,7 +136,7 @@ void System::printOrderedAllRecords() {
 void System::editRecord() {
     choose option = this->gui->captureEditRecord();
     if(option.mode == id) {
-        
+
     }else if(option.mode == name) {
 
     }

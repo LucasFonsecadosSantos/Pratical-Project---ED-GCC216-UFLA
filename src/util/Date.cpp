@@ -32,7 +32,7 @@ Date::Date() {
 
 Date::~Date() {
 
-}
+}   
 
 std::string Date::getDate() {
     time_t timeType;
