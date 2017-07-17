@@ -104,6 +104,10 @@ class Data {
         void generateDayLogFile();
 
         void openLogFile();
+
+        settings_orderedPrintOut readSettings();
+
+        std::string storeSettings(settings_orderedPrintOut);
 };
 
 #endif

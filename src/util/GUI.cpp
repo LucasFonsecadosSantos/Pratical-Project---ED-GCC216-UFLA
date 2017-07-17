@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 /**
  *  Graphical user interface object constructor.
@@ -50,7 +51,7 @@ GUI::~GUI() {
  *  \return int Option integer value.
  */
 int GUI::captureMenu() {
-    clear();
+    
     std::cout << "+===================================================+\n";
     std::cout << "+            __  __   _   _____   _____ __          +\n";
     std::cout << "+           |  \\/  | /_\\ | _ \\ \\ / / __| |          +\n";
@@ -139,6 +140,18 @@ void GUI::showHeroes(LinkedList<hero> heroes) {
     }
 }
 
+void GUI::showHeroes(std::vector<hero> heroes) {
+    std::cout << header("HEROES STORED IN THE SYSTEM");
+    hero tmpHero;
+    std::string tmp;
+    for(int i = heroes.size(); i >= 0; i--) {
+        std::cout << "[!] HERO NAME: " + (std::string) heroes[i].nome + "\n";
+        std::cout << "[!] HERO SKILLS: " + (std::string) heroes[i].poderes + "\n";
+        std::cout << "[!] HERO BIOGRAPHY: " + (std::string) heroes[i].biografia + "\n";
+        // std::cout << "[!] HERO POWER LEVEL: "+ tmpHero.powerLevel + "\n";
+        std::cout << "+---------------------------------------------------+\n";
+    }
+}
 /**
  *  This method is responsible for does cleaning the console screen.
  *  He applys the reset linux bash command.
@@ -152,7 +165,7 @@ int GUI::confirmExit() {
 }
 
 std::string GUI::header(std::string text) {
-    clear();
+    //clear();
     std::string s = "+===================================================+\n";
     s += " "+text + "\n";
     s += "+===================================================+\n";
@@ -227,4 +240,39 @@ choose GUI::captureRemoveRecord() {
         std::cout << "[X] ENTER A VALIDA VALUE!";
     }
     return option;
+}
+
+void GUI::capturePrintOrderedAllRecords(settings_orderedPrintOut settings, LinkedList<hero> records) {
+    std::vector<hero> recordsArray;
+    hero tmpHero;
+    for(int i=records.getSize(); i > 0; i--) {
+            recordsArray.push_back(records.remove());        
+    }
+    std::cout << settings;
+    if(settings == by_id) {
+        std::cout << header("PRINT OUT ALL ELEMENTS BY ID");
+        for(std::vector<hero>::iterator it = recordsArray.begin() ; it < recordsArray.end()-1; ++it) {
+            for(std::vector<hero>::iterator it2 = it+1 ; it < recordsArray.end(); ++it) {
+                if(it->id > it2->id) {
+                    tmpHero = *it;
+                    *it = *it2;
+                    *it2 = tmpHero;
+                }
+            }
+        }  
+    }else {
+        std::cout << header("PRINT OUT ALL ELEMENTS BY POWER LEVEL");
+        for(std::vector<hero>::iterator it = recordsArray.begin() ; it < recordsArray.end()-1; ++it) {
+            for(std::vector<hero>::iterator it2 = it+1 ; it < recordsArray.end(); ++it) {
+                if(it->powerLevel > it2->powerLevel) {
+                    tmpHero = *it;
+                    *it = *it2;
+                    *it2 = tmpHero;
+                }
+            }
+        }
+    }
+
+    showHeroes(recordsArray);
+
 }

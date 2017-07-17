@@ -1,5 +1,10 @@
 #!/bin/bash
 
+######################################################
+## Bash script written by   		  	    ##
+## Lucas Fonseca dos Santos.		  	    ## 
+## github: https://github.com/LucasFonsecadosSantos ##
+######################################################
 reset;
 mkdir build/
 echo "+===================================+";

@@ -27,6 +27,7 @@
 #include "../app/Object.h"
 #include "data_structure/LinkedList.h"
 #include <string>
+#include <vector>
 
 /**
  * This class describes the user console interface.
@@ -76,6 +77,8 @@ class GUI {
          * \param LinkedList<hero> Hero linked list structure with the heroes.
          */
         void showHeroes(LinkedList<hero>);
+
+        void showHeroes(std::vector<hero>);
         
         /**
          *  This method cleans the console screen.
@@ -87,6 +90,8 @@ class GUI {
         choose captureEditRecord();
 
         choose captureRemoveRecord();
+
+        void capturePrintOrderedAllRecords(settings_orderedPrintOut, LinkedList<hero>);
 };
 
 #endif

@@ -39,6 +39,7 @@ System::System() {
     this->gui = new GUI();
     this->data = new Data();
     this->logger = new Logger();
+    this->data->readSettings();
     
 }
 
@@ -130,7 +131,7 @@ void System::printAllRecords() {
  *
  */
 void System::printOrderedAllRecords() {
-
+    this->gui->capturePrintOrderedAllRecords(this->data->readSettings(), this->data->recoveryHeroes());
 }
 
 void System::editRecord() {

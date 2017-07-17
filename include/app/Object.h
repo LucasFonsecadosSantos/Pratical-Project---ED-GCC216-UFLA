@@ -50,9 +50,14 @@ struct hero {
  * search a hero by name to remove him or search a hero by id
  * to edit him. This type contains two modes, name and id.
  */
-enum  searchMode{
+enum searchMode{
     name,
     id
+};
+
+enum settings_orderedPrintOut {
+    by_id,
+    by_power
 };
 
 struct choose {

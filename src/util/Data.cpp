@@ -105,9 +105,10 @@ void Data::generateDayLogFile() {
     if(!this->outLogFile.is_open()) {
        this->outLogFile.open("./logs/teste.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
        std::string initMessage = "teste";
-       this->outLogFile << "trd";
        this->outLogFile.close();
-    }   
+    }else {
+        this->outFile << "dsajiiasdjidasijoasdjiosadjioasdjiodasjiojioasdjiodasjioasdjiodasjioasdjiodajiojiasdojioasdjiodasjioasdjio";
+    }
 }
 
 void Data::openLogFile() {
@@ -119,4 +120,26 @@ void Data::openLogFile() {
 
 std::string storeLog(std::string message) {
 
+}
+
+std::string Data::storeSettings(settings_orderedPrintOut settings) {
+    this->outFile.open("./settings/settings.bin", std::fstream::trunc);
+    this->outFile.write((char*) &settings, sizeof(settings_orderedPrintOut));
+    this->outFile.close();
+    return SUCCESSFULLY_OPERATION_MESSAGE;
+}
+
+settings_orderedPrintOut Data::readSettings() {
+    settings_orderedPrintOut settings;
+    if(!this->inFile.is_open()) {
+        std::cout << "testeee65456445";
+        this->inFile.open("./settings/settings.bin", std::fstream::in | std::fstream::out | std::fstream::trunc);
+        settings = by_power;
+        this->inFile.write((char*) &settings, sizeof(settings_orderedPrintOut));
+    }else {
+        this->inFile.open("./settings/settings.bin", std::fstream::out | std::fstream::app);
+        this->inFile.read((char*) &settings, sizeof(settings_orderedPrintOut));
+    }
+    this->inFile.close();
+    return settings;
 }

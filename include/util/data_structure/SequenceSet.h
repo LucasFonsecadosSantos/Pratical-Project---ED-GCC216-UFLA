@@ -42,13 +42,15 @@ class Node {
          * \var content
          */
         hero content[_BLOC_SIZE_];
+
+        Node* next;
         
     public:
 
         /**
          * Node object constructor.
          */
-        Node();
+        Node(hero);
 
         /**
          * Node object destructor.
@@ -71,6 +73,8 @@ class SequenceSet {
          * Sequence set object destructor.
          */
         ~SequenceSet();
+
+        std::string add(hero);
 };
 
 

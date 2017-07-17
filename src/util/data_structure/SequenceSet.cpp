@@ -25,7 +25,8 @@
 #include "../../../include/app/Object.h"
 
 Node::Node() {
-
+    this->next = NULL;
+    //content[0] = 
 }
 
 Node::~Node() {
