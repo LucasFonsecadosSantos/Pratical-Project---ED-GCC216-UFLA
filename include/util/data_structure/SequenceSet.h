@@ -24,43 +24,105 @@
 #ifndef SEQUENCE_SET_TYPE_H
 #define SEQUENCE_SET_TYPE_H 1
 #define _BLOC_SIZE_ 8
+#define _HEADER_INFORMATIONS_ 3
 
 #include "../../app/Object.h"
+#include "LinkedList.h"
+#include "../../../src/util/data_structure/LinkedList.cpp"
 
 /**
- * This class describes a node sequence set object, where 
+ * This class describes a SequenceNode sequence set object, where 
  */
-class Node {
+class SequenceNode {
+
+    friend class SequenceSet;
 
     private:
         
         /**
-         * Node content static bloc array, with size defined
+         * SequenceNode content static bloc array, with size defined
          * by _BLOC_SIZE integer constant. The elements inserted
-         * at node, will go to this array.
+         * at SequenceNode, will go to this array.
          *
          * \var content
          */
         hero content[_BLOC_SIZE_];
 
-        Node* next;
+        /**
+         * SequenceNode pointer to the next bloc.
+         *  
+         * \var next
+         */
+        SequenceNode* next;
+
+        /**
+         * Integer sequence set number value.
+         *
+         * \var sequenceNumber
+         */
+        int sequenceNumber;
+
+        /**
+         * Integer valid records amount added into current bloc SequenceNode.
+         *
+         * \param validRecordsAmount
+         */
+        int validRecordsAmount;
         
     public:
 
         /**
-         * Node object constructor.
+         * SequenceNode object constructor.
+         * It receives a one hero struct and integer sequence set
+         * number value by parameters. It is an overloaded method.
+         *
+         * \param hero A hero struct will be to added into SequenceNode.
+         * \param int A integer sequence set number value.
          */
-        Node(hero);
+        SequenceNode(hero, int);
 
         /**
-         * Node object destructor.
+         * SequenceNode object constructor overloaded.
+         * It receives by parameter a heroes vector with
+         * heroes amount value and the current sequence number.
+         *
+         * \param hero[] A heroes structs array to be insert.
+         * \param int A integer heroes amount that will be inserted value.
+         * \param int A integer current sequence set number value.
          */
-        ~Node();
+        SequenceNode(hero[], int, int);
+
+        /**
+         * SequenceNode object destructor.
+         */
+        ~SequenceNode();
+
 };
 
+/**
+ * This class describes the main sequence set data structure.
+ * It is a kind of linked list to facilitate the informations
+ * manipulation on the binary database file.
+ */
 class SequenceSet {
 
     private:
+
+        /**
+         * Header informations array. It contains
+         * the sequence amount or SequenceNodes amount, the first
+         * sequence bloc index and the next disponible bloc.
+         *
+         * \var header[]
+         */
+        int header[_HEADER_INFORMATIONS_];
+
+        SequenceNode* firstBloc;
+        SequenceNode* lastBloc;
+        inline bool isEmpty();
+        inline int getBlocsAmount();
+        inline int getFirstBlocIndex();
+        inline int getNextDisponibleBloc();
 
     public:
 
@@ -74,7 +136,17 @@ class SequenceSet {
          */
         ~SequenceSet();
 
+        /**
+         * The adder method prototype.
+         * This method is responsible to add a new elements
+         * into the sequence set SequenceNodes.
+         *
+         * \param hero A hero struct to be added.
+         * \return std::string A string operation status about the inserction.
+         */
         std::string add(hero);
+
+        std::string add(LinkedList<hero>);
 };
 
 
