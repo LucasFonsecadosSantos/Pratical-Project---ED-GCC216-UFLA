@@ -78,6 +78,9 @@ void System::execute() {
             case 6:
                 printOrderedAllRecords();
                 break;
+            case 10:
+                settings();
+                break;
             case 99:
                 option = this->gui->confirmExit();
                 break;
@@ -141,4 +144,9 @@ void System::editRecord() {
     }else if(option.mode == name) {
 
     }
+}
+
+void System::settings() {
+    this->data->storeSettings(this->gui->captureSettings(data->readSettings()));
+
 }

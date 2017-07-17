@@ -122,7 +122,13 @@ std::string storeLog(std::string message) {
 
 }
 
-std::string Data::storeSettings(settings_orderedPrintOut settings) {
+std::string Data::storeSettings(choose c) {
+    settings_orderedPrintOut settings;
+    if(c.mode == id) {
+        settings = by_id;
+    }else {
+        settings = by_power;
+    }
     this->outFile.open("./settings/settings.bin", std::fstream::trunc);
     this->outFile.write((char*) &settings, sizeof(settings_orderedPrintOut));
     this->outFile.close();
@@ -132,7 +138,6 @@ std::string Data::storeSettings(settings_orderedPrintOut settings) {
 settings_orderedPrintOut Data::readSettings() {
     settings_orderedPrintOut settings;
     if(!this->inFile.is_open()) {
-        std::cout << "testeee65456445";
         this->inFile.open("./settings/settings.bin", std::fstream::in | std::fstream::out | std::fstream::trunc);
         settings = by_power;
         this->inFile.write((char*) &settings, sizeof(settings_orderedPrintOut));

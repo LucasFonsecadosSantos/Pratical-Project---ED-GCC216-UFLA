@@ -107,7 +107,7 @@ class Data {
 
         settings_orderedPrintOut readSettings();
 
-        std::string storeSettings(settings_orderedPrintOut);
+        std::string storeSettings(choose);
 };
 
 #endif

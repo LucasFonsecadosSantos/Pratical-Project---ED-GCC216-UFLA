@@ -119,6 +119,8 @@ class System {
          */
         void about();
 
+        void settings();
+
     public:
 
         /**

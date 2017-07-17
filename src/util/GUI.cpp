@@ -51,7 +51,7 @@ GUI::~GUI() {
  *  \return int Option integer value.
  */
 int GUI::captureMenu() {
-    
+    clear();
     std::cout << "+===================================================+\n";
     std::cout << "+            __  __   _   _____   _____ __          +\n";
     std::cout << "+           |  \\/  | /_\\ | _ \\ \\ / / __| |          +\n";
@@ -80,7 +80,8 @@ int GUI::captureMenu() {
     std::cout << "+ [7] Delete all data files;                        +\n";
     std::cout << "+ [8] Delete all log files;                         +\n";
     std::cout << "+ [9] View log files content;                       +\n";
-    std::cout << "+ [10] ABOUT;                                       +\n";
+    std::cout << "+ [10] Settings;                                    +\n";
+    std::cout << "+ [11] ABOUT;                                       +\n";
     std::cout << "+                                                   +\n";
     std::cout << "+ [99] EXIT;                                        +\n";
     std::cout << "+                                                   +\n";
@@ -115,7 +116,6 @@ LinkedList<hero> GUI::captureAddNewRecord() {
         std::cout << "[#] HERO POWER LEVEL (enter a integer value): ";
         std::cin >> newHero.powerLevel;
         std::cout << "+===================================================+\n";
-        
         informations->add(newHero);
         std::cout << "[#] DO YOU WANT TO ADD A NEW HEROS? [N/y]: ";
         std::cin >> option;
@@ -130,12 +130,12 @@ void GUI::showHeroes(LinkedList<hero> heroes) {
     std::cout << header("HEROES STORED IN THE SYSTEM");
     hero tmpHero;
     std::string tmp;
-    for(int i = heroes.getSize(); i >= 0; i--) {
+    for(int i = heroes.getSize()-1; i >= 0; i--) {
         tmpHero = heroes.remove();
         std::cout << "[!] HERO NAME: " + (std::string) tmpHero.nome + "\n";
         std::cout << "[!] HERO SKILLS: " + (std::string) tmpHero.poderes + "\n";
         std::cout << "[!] HERO BIOGRAPHY: " + (std::string) tmpHero.biografia + "\n";
-        // std::cout << "[!] HERO POWER LEVEL: "+ tmpHero.powerLevel + "\n";
+        std::cout << "[!] HERO POWER LEVEL: "+ std::to_string(tmpHero.powerLevel) + "\n";
         std::cout << "+---------------------------------------------------+\n";
     }
 }
@@ -144,11 +144,11 @@ void GUI::showHeroes(std::vector<hero> heroes) {
     std::cout << header("HEROES STORED IN THE SYSTEM");
     hero tmpHero;
     std::string tmp;
-    for(int i = heroes.size(); i >= 0; i--) {
+    for(int i = heroes.size()-1; i >= 0; i--) {
         std::cout << "[!] HERO NAME: " + (std::string) heroes[i].nome + "\n";
         std::cout << "[!] HERO SKILLS: " + (std::string) heroes[i].poderes + "\n";
         std::cout << "[!] HERO BIOGRAPHY: " + (std::string) heroes[i].biografia + "\n";
-        // std::cout << "[!] HERO POWER LEVEL: "+ tmpHero.powerLevel + "\n";
+        std::cout << "[!] HERO POWER LEVEL: "+ std::to_string(heroes[i].powerLevel) + "\n";
         std::cout << "+---------------------------------------------------+\n";
     }
 }
@@ -165,7 +165,7 @@ int GUI::confirmExit() {
 }
 
 std::string GUI::header(std::string text) {
-    //clear();
+    clear();
     std::string s = "+===================================================+\n";
     s += " "+text + "\n";
     s += "+===================================================+\n";
@@ -242,6 +242,13 @@ choose GUI::captureRemoveRecord() {
     return option;
 }
 
+/**
+ *  This method is responsible for print out all hero records stored in binary database
+ *  files. It receives by parameter a system settings enum structure and a linked
+ *  list hero data structure with all heroes loaded in system.
+ *  
+ *
+ */
 void GUI::capturePrintOrderedAllRecords(settings_orderedPrintOut settings, LinkedList<hero> records) {
     std::vector<hero> recordsArray;
     hero tmpHero;
@@ -265,6 +272,7 @@ void GUI::capturePrintOrderedAllRecords(settings_orderedPrintOut settings, Linke
         for(std::vector<hero>::iterator it = recordsArray.begin() ; it < recordsArray.end()-1; ++it) {
             for(std::vector<hero>::iterator it2 = it+1 ; it < recordsArray.end(); ++it) {
                 if(it->powerLevel > it2->powerLevel) {
+                    std::cout << it->powerLevel << "é maior que " << it2->powerLevel << std::endl;
                     tmpHero = *it;
                     *it = *it2;
                     *it2 = tmpHero;
@@ -272,7 +280,51 @@ void GUI::capturePrintOrderedAllRecords(settings_orderedPrintOut settings, Linke
             }
         }
     }
-
     showHeroes(recordsArray);
+}
 
+choose GUI::captureSettings(settings_orderedPrintOut settings) {
+    int opt;
+    choose option;
+    std::cout << header("SYSTEM SETTINGS");
+    std::cout << " [!] CURRENT SETTINGS:\n\n";
+    std::cout << " [1] Current sorting Mode\n";
+    if(settings == by_id) {
+        std::cout << "     -> by id.\n";
+    }else {
+        std::cout << "     -> by power level.\n";
+    }
+    std::cout << "\n+===================================================+\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [CHOOSE YOU OPTION]:                              +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [1] Change the sorting mode;                      +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
+    std::cout << "[#] ENTER THE OPTION: ";
+    std::cin >> opt;
+    if(opt == 1) {
+        clear();
+        std::cout << "\n+===================================================+\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [CHANGE THE CURRENT SETTING]:                     +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+ [1] Change to sorting by id mode;                 +\n";
+    std::cout << "+ [2] Change to sorting by power level mode;        +\n";
+    std::cout << "+                                                   +\n";
+    std::cout << "+===================================================+\n";
+        std::cout << "[#] ENTER THE OPTION: ";
+        std::cin >> opt;
+        clear();
+        if(opt == 1) {
+            option.mode = id;
+            std::cout << "[!] ID MODE CHOSEN!";
+        }else {
+            option.mode = name;
+            std::cout << "[!] POWER LEVEL MODE CHOSEN!";
+        }
+    }else {
+        std::cout << "[X] ENTER A VALIDA VALUE!";
+    }
+    return option;
 }

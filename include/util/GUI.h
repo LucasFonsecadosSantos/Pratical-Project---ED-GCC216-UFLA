@@ -92,6 +92,8 @@ class GUI {
         choose captureRemoveRecord();
 
         void capturePrintOrderedAllRecords(settings_orderedPrintOut, LinkedList<hero>);
+
+        choose captureSettings(settings_orderedPrintOut);
 };
 
 #endif
