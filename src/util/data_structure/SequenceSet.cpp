@@ -26,7 +26,8 @@
 
 SequenceNode::SequenceNode(hero newHero, int sequenceNumber) {
     this->next = NULL;
-    this->content[0] = newHero;
+    std::cout << newHero.powerLevel << " number " << sequenceNumber;
+    this->content[0] = newHero; 
     this->sequenceNumber = sequenceNumber;
     this->validRecordsAmount = 1;
 }
@@ -45,7 +46,9 @@ SequenceNode::~SequenceNode() {
 }
 
 SequenceSet::SequenceSet() {
-    this->header = {0,0,0};
+    for(int i=0; i<_HEADER_INFORMATIONS_; i++) {
+        this->header[i] = 0;
+    }
     this->firstBloc = NULL;
     this->lastBloc = NULL;
 }
@@ -71,19 +74,94 @@ inline int SequenceSet::getNextDisponibleBloc() {
 }
 
 std::string SequenceSet::add(hero newHero) {
-    if(!isEmpty()) {
+    if(this->header[0] > 0) {
         SequenceNode* currentNode = this->firstBloc;
         for(int i=0; i < _BLOC_SIZE_; i++) {
             if(newHero.powerLevel <= currentNode->content[i].powerLevel) {
-                
+        
+                //If the array contains empty or valid positions;
+                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+                    for(int j= _BLOC_SIZE_; j > i; j--) {
+                       std::cout << currentNode->content[j-1].powerLevel << std::endl;
+                        currentNode->content[j] = currentNode->content[j-1];
+                    }
+                    currentNode->content[i] = newHero;
+                    currentNode->validRecordsAmount++;
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }else {
+
+                    //It needs a new node to realocated the heroes.
+                    hero realocHeroes[_BLOC_SIZE_-i]; //Heroes that needs to realocated.
+                    unsigned count = 0;
+                    for(int k=i; k <= _BLOC_SIZE_; k++) {
+                        realocHeroes[count] = currentNode->content[k];
+                        count++;
+                    }
+                    std::cout << "caiu aui";
+                    currentNode->next = new SequenceNode(realocHeroes, i-_BLOC_SIZE_, currentNode->sequenceNumber++);
+                    this->header[0]++;
+                    this->header[1]++;
+                    this->header[2] = currentNode->sequenceNumber++;
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }
+            }else {
+                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+                    currentNode->content[currentNode->validRecordsAmount+1] = newHero;
+                    currentNode->validRecordsAmount++;
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }else {
+
+                    //It needs a new node to realocated the heroes.
+                    hero realocHeroes[_BLOC_SIZE_-i]; //Heroes that needs to realocated.
+                    unsigned count = 0;
+                    for(int k=i; k <= _BLOC_SIZE_; k++) {
+                        realocHeroes[count] = currentNode->content[k];
+                        count++;
+                    }
+                    std::cout << "caiu aui";
+                    currentNode->next = new SequenceNode(realocHeroes, i-_BLOC_SIZE_, currentNode->sequenceNumber++);
+                    this->header[0]++;
+                    this->header[1]++;
+                    this->header[2] = currentNode->sequenceNumber++;
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }
             }
         }
     }else {
-        this->header[0] = 1;
+        this->header[0]++;
         this->header[1] = -1;
         this->header[2] = -1;
         this->firstBloc = new SequenceNode(newHero, getBlocsAmount());
         this->lastBloc = this->firstBloc;
         return _SUCCESSFULLY_OPERATION_MESSAGE_;
     }
+}
+
+void SequenceSet::print() {
+    SequenceNode* currentNode = this->firstBloc;
+    while(currentNode != NULL) {
+        for(int i=0; i < _BLOC_SIZE_; i++) {
+            std::cout << "hero power level: " << currentNode->content[i].powerLevel << " \n";
+        }
+        currentNode = currentNode->next;
+    }
+}
+
+int main() {
+
+    SequenceSet* s = new SequenceSet();
+    hero tmp;
+    tmp.powerLevel = 10;
+    hero tmp2;
+    tmp2.powerLevel = 2;
+    hero tmp3;
+    tmp3.powerLevel = 5;
+
+    
+    std::cout << s->add(tmp3);
+    std::cout << s->add(tmp2);
+    std::cout << s->add(tmp);
+    
+    s->print();
+    return 0;
 }
