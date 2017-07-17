@@ -47,7 +47,9 @@ System::System() {
  * System object destructor.
  */
 System::~System() {
-
+    this->gui = NULL;
+    this->data = NULL;
+    this->logger = NULL;
 }
 
 /**
@@ -80,6 +82,9 @@ void System::execute() {
                 break;
             case 10:
                 settings();
+                break;
+            case 11:
+                about();
                 break;
             case 99:
                 option = this->gui->confirmExit();
@@ -126,8 +131,8 @@ void System::searchRecord() {
  *
  */
 void System::printAllRecords() {
-    LinkedList<hero> storedHeroes = this->data->recoveryHeroes();
-    this->gui->showHeroes(storedHeroes);
+    this->gui->showHeroes(this->data->recoveryHeroes());
+    this->gui->pressToContinue();
 }
 
 /**
@@ -148,5 +153,10 @@ void System::editRecord() {
 
 void System::settings() {
     this->data->storeSettings(this->gui->captureSettings(data->readSettings()));
-
+    this->gui->pressToContinue();
 }
+
+void System::about() {
+    this->gui->showAbout();
+}
+

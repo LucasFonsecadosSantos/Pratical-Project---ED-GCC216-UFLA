@@ -152,6 +152,13 @@ void GUI::showHeroes(std::vector<hero> heroes) {
         std::cout << "+---------------------------------------------------+\n";
     }
 }
+
+void GUI::pressToContinue() {
+    std::cout << "[#] PRESS ANY KEY TO CONTINUE...";
+    std::cin.ignore();
+    std::cin.ignore();
+}
+
 /**
  *  This method is responsible for does cleaning the console screen.
  *  He applys the reset linux bash command.
@@ -281,6 +288,7 @@ void GUI::capturePrintOrderedAllRecords(settings_orderedPrintOut settings, Linke
         }
     }
     showHeroes(recordsArray);
+    pressToContinue();
 }
 
 choose GUI::captureSettings(settings_orderedPrintOut settings) {
@@ -327,4 +335,19 @@ choose GUI::captureSettings(settings_orderedPrintOut settings) {
         std::cout << "[X] ENTER A VALIDA VALUE!";
     }
     return option;
+}
+
+void GUI::showAbout() {
+    clear();
+    char press;
+    std::cout << header("ABOUT THE MARVEL DATA SYSTEM v2.0");
+    std::cout << "\n [DEVELOPERS]:\n\n";
+    std::cout << " [!] Lucas Fonseca dos Santos;\n";
+    std::cout << " [!] Matheus Henrique Ribeiro de souza;\n";
+    std::cout << " [!] Mayra Cristiane;\n";
+    std::cout << "\n+---------------------------------------------------+\n\n";
+    std::cout << "\n [LICENSE]:\n\n";
+    std::cout << " COPYLEFT GNU GPL License - All rights NOT reserved,\n 2017.\n";
+    std::cout << "\n+---------------------------------------------------+\n";
+    pressToContinue();
 }

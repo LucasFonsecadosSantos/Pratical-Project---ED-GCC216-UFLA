@@ -94,6 +94,10 @@ class GUI {
         void capturePrintOrderedAllRecords(settings_orderedPrintOut, LinkedList<hero>);
 
         choose captureSettings(settings_orderedPrintOut);
+
+        void showAbout();
+
+        void pressToContinue();
 };
 
 #endif
