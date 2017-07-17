@@ -82,18 +82,19 @@ std::string SequenceSet::add(hero newHero) {
                 //If the array contains empty or valid positions;
                 if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
                     for(int j= _BLOC_SIZE_; j > i; j--) {
-                       std::cout << currentNode->content[j-1].powerLevel << std::endl;
                         currentNode->content[j] = currentNode->content[j-1];
                     }
                     currentNode->content[i] = newHero;
                     currentNode->validRecordsAmount++;
+                    std::cout << currentNode->validRecordsAmount << "asd";
                     return _SUCCESSFULLY_OPERATION_MESSAGE_;
                 }else {
-
+                    std::cout << "testeeeeeeee ";
                     //It needs a new node to realocated the heroes.
                     hero realocHeroes[_BLOC_SIZE_-i]; //Heroes that needs to realocated.
                     unsigned count = 0;
                     for(int k=i; k <= _BLOC_SIZE_; k++) {
+                        std::cout << "testeeeeeeee " << k;
                         realocHeroes[count] = currentNode->content[k];
                         count++;
                     }
@@ -151,11 +152,11 @@ int main() {
 
     SequenceSet* s = new SequenceSet();
     hero tmp;
-    tmp.powerLevel = 10;
+    tmp.powerLevel = 30;
     hero tmp2;
-    tmp2.powerLevel = 2;
+    tmp2.powerLevel = 11;
     hero tmp3;
-    tmp3.powerLevel = 5;
+    tmp3.powerLevel = 9;
 
     
     std::cout << s->add(tmp3);
