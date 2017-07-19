@@ -148,53 +148,73 @@ void SequenceNode::sort() {
 
 
 std::string SequenceSet::add(hero newHero, SequenceNode* begin) {
-    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
     if(!this->file.is_open()) {
         std::cerr << "tessste";
     }
-
     this->file.close();
-    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-    this->file.read((char*) &this->headerFile, sizeof(header));
-    this->file.close();
-    
-    if(this->headerFile == NULL) {
-        header newHeaderFile;
-        newHeaderFile.blocAmount = 0;
-        newHeaderFile.firstBloc = 0;
-        newHeaderFile.nextDisponible = 0;
-        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-        this->file.write((char*) &newHeaderFile, sizeof(header));
-        this->file.close();
-        
-    }
 
-    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-    header currentHeaderFile;
-    
+    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
+    header he;
+    this->headerFile = &he;
+    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
+    he.blocAmount = 0;
+    he.nextDisponible = 0;
+    he.firstBloc = 0;
+    this->file.write((char*) &he, sizeof(header));
     this->file.seekg(0, std::fstream::beg);
-    this->file.read((char*) &currentHeaderFile, sizeof(header));
-    this->headerFile = &currentHeaderFile;
+    this->file.read((char*) &he, sizeof(header));
+    std::cout << he.blocAmount;
     this->file.close();
-
-    if(this->headerFile->blocAmount == 0) {
-        SequenceNode* tmpNode = new SequenceNode(newHero, -1);
-        this->headerFile->blocAmount++;
-        
-        this->headerFile->nextDisponible = this->headerFile->firstBloc = -1;
-        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-        this->file.seekg(0, std::fstream::beg);
-        this->file.write((char*) &this->headerFile, sizeof(header));
-        this->file.seekg(12, std::fstream::beg);
-        this->file.write((char*) &tmpNode, sizeof(SequenceNode));
-        this->file.close();
-        return _SUCCESSFULLY_OPERATION_MESSAGE_;
-    }else {
-
-        SequenceNode* tmpNode;
-        
-    }
     return "bosta";
+    if(this->headerFile == NULL){
+        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+        header ho;
+        this->headerFile = &ho;
+        this->headerFile->blocAmount = 0;
+        this->headerFile->firstBloc = 0;
+        this->headerFile->nextDisponible = 0;
+        this->file.write((char*) &this->headerFile, sizeof(header));
+        this->file.close();
+    }
+    
+    // if(this->headerFile == NULL) {
+    //     header newHeaderFile;
+    //     newHeaderFile.blocAmount = 0;
+    //     newHeaderFile.firstBloc = 0;
+    //     newHeaderFile.nextDisponible = 0;
+    //     this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    //     this->file.write((char*) &newHeaderFile, sizeof(header));
+    //     this->file.close();
+        
+    // } 
+    // this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    // header currentHeaderFile;
+    
+    // // this->file.seekg(0, std::fstream::beg);
+    // this->file.read((char*) &currentHeaderFile, sizeof(header));
+    // this->headerFile = &currentHeaderFile;
+    // std::cout << this->headerFile->blocAmount;
+    // this->file.close();
+    // return "teste";
+    // if(this->headerFile->blocAmount == 0) {
+    //     SequenceNode* tmpNode = new SequenceNode(newHero, -1);
+    //     this->headerFile->blocAmount++;
+    //     this->headerFile->nextDisponible = this->headerFile->firstBloc = -1;
+    //     this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    //     this->file.seekg(0, std::fstream::beg);
+    //     this->file.write((char*) &this->headerFile, sizeof(header));
+    //     this->file.seekg(12, std::fstream::beg);
+    //     this->file.write((char*) &tmpNode, sizeof(SequenceNode));
+    //     this->file.close();
+    //     std::cout << "QUE BOSTA";
+    //     return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    // }else {
+
+    //     SequenceNode* tmpNode;
+        
+    // }
+    // return "bosta";
 }
 
 
