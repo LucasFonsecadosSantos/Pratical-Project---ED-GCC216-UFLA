@@ -100,51 +100,87 @@ std::string SequenceSet::add(hero newHero) {
     
     if(!isEmpty()) {
         SequenceNode* currentNode = this->firstBloc;
-        if(newHero.powerLevel >currentNode->content[currentNode->validRecordsAmount].powerLevel) {
-            if((currentNode->next != NULL ) && (newHero.powerLevel < currentNode->next->content[0].powerLevel)) {
-                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    currentNode->content[currentNode->validRecordsAmount] = newHero;
-                    currentNode->validRecordsAmount++;
-                    currentNode->sort();
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+        //maior que o ultimo do no atual e menor que o primeiro do proximo no
+        while(currentNode != NULL) {
+            if(newHero.powerLevel > currentNode->content[currentNode->validRecordsAmount-1].powerLevel) {
+                if(currentNode->validRecordsAmount != _BLOC_SIZE_) {
+                    if(currentNode->next != NULL) {
+                        //heroi maior que ultimo, bloco nao cheio e possui next
+                        if(newHero.powerLevel < currentNode->next->content[0].powerLevel) {
+                            //heroi maior que ultimo, bloco nao cheio e possui next e menor que primeiro elemento do next
+                            currentNode->content[currentNode->validRecordsAmount] = newHero;
+                            currentNode->validRecordsAmount++;
+                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                        }else {
+                            //heroi maior que ultimo, bloco nao cheio e possui next e maior ou igual que primeiro elemento do next
+                            currentNode = currentNode->next;
+                            continue;
+                        }
+                    }else {
+                        //heroi maior que ultimo, bloco nao cheio e nao possui next
+                        currentNode->content[currentNode->validRecordsAmount] = newHero;
+                        currentNode->validRecordsAmount++;
+                        return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                    }
                 }else {
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                    //aloca novo bloco pro next e manda galera pra la;
+                    //heroi maior que o ultimo e bloco cheio
+                    if(currentNode->next != NULL) {
+                        //heroi maior que o ultimo, bloco cheio e possui proximo
+                        SequenceNode* tmpNode = currentNode->next;
+                        currentNode->next = new SequenceNode(newHero, 5);
+                        currentNode->next->next = tmpNode;
+                        this->header[0]++;
+                    }else {
+                        //heroi maior que o ultimo, bloco cheio e nao possui proximo
+                        this->lastBloc = currentNode->next = new SequenceNode(newHero, -1);
+                        this->header[0]++;
+                        return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                    }
                 }
             }else {
-                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    currentNode->content[currentNode->validRecordsAmount] = newHero;
-                    currentNode->validRecordsAmount++;
-                    currentNode->sort();
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                //heroi menor ou igual  o ultimo
+                if(currentNode->validRecordsAmount != _BLOC_SIZE_) {
+                    //heroi menor e igual o ultimo com bloco nao cheio
+                    for(int i=0; i < _BLOC_SIZE_; i++) {
+                        if(newHero.powerLevel <= currentNode->content[i].powerLevel) {
+                            for(int j=_BLOC_SIZE_-1; j >= i; j--) {
+                                currentNode->content[j] = currentNode->content[j-1];
+                            }
+                            currentNode->content[i] = newHero;
+                            currentNode->validRecordsAmount++;
+                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                        }
+                    }
                 }else {
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                    //aloca novo no
-                }
-            }
-        }else {
-            if((currentNode->next != NULL ) && (newHero.powerLevel < currentNode->next->content[0].powerLevel)) {
-                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    currentNode->content[currentNode->validRecordsAmount] = newHero;
-                    currentNode->validRecordsAmount++;
-                    currentNode->sort();
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                }else {
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                    //aloca novo bloco pro next e manda galera pra la;
-                }
-            }else {
-                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    currentNode->content[currentNode->validRecordsAmount] = newHero;
-                    currentNode->validRecordsAmount++;
-                    currentNode->sort();
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                }else {
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                    //aloca novo no
+                    //heroi menor e igual o ultimo com bloco cheio
+                    std::vector<hero> realocHeroes;
+                    
+                    for(int i=0; i<_BLOC_SIZE_; i++) {
+                        if(newHero.powerLevel <= currentNode->content[i].powerLevel) {
+                            for(int j=i; j<_BLOC_SIZE_; j++) {
+                                realocHeroes.push_back(currentNode->content[j]);
+                            }
+                            currentNode->content[i] = newHero;
+                            currentNode->validRecordsAmount = _BLOC_SIZE_ - i;
+                            if(currentNode->next != NULL) {
+                                //heroi menor ou igual ao ultimo, com bloco cheio e proximo
+                                SequenceNode* tmpNode = currentNode->next;
+                                currentNode->next = new SequenceNode(realocHeroes, 4);
+                                currentNode->next->next = tmpNode;
+                                this->header[0]++;
+                                return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                            }else {
+                                //heroi menor ou igual ao ultimo, com bloco cheio e nao proximo
+                                this->lastBloc = currentNode->next = new SequenceNode(newHero, -1);
+                                this->header[0]++;
+                                return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                            }
+                        }
+                    }
                 }
             }
         }
+        
     }else {
         this->firstBloc = this->lastBloc = new SequenceNode(newHero, -1);
         this->header[0]++;
@@ -180,13 +216,14 @@ int main() {
     tmp6.powerLevel = 6;
 
     
-    std::cout << s->add(tmp3); //9
+    std::cout << s->add(tmp); //30
+    //std::cout << s->add(tmp3); //9
     std::cout << s->add(tmp5); //5
-    //std::cout << s->add(tmp2); //11
-    //std::cout << s->add(tmp); //9
+    std::cout << s->add(tmp2); //11
+    std::cout << s->add(tmp); //30
     //std::cout << s->add(tmp); //30
     
-    std::cout << s->add(tmp4); //8
+    //std::cout << s->add(tmp4); //8
     // std::cout << s->add(tmp5); //5
     // std::cout << s->add(tmp5);
     // std::cout << s->add(tmp6);
