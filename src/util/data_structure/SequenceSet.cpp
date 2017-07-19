@@ -25,18 +25,33 @@
 #include "../../../include/app/Object.h"
 #include <vector>
 
+/**
+ * Sequence Set Node element object constructor overloaded. It receives a new
+ * hero to add into node and a integer sequence number value and
+ * attributes this.
+ *
+ * \param newHero A new hero object to insert.
+ * \param sequenceNumber A integer sequence node number value.
+ */
 SequenceNode::SequenceNode(hero newHero, int sequenceNumber) {
     this->next = NULL;
-    std::cout << newHero.powerLevel << " number " << sequenceNumber;
     this->content[0] = newHero; 
     this->sequenceNumber = sequenceNumber;
     this->validRecordsAmount = 1;
 }
 
+/**
+ * Sequence set node element object constructor overloaded. It receives by
+ * parameters a standart hero vector object with all heroes to be inserted and
+ * a integer sequence number value.
+ *
+ * \param newHero Standart C++ hero vector object with heroes to be inserted.
+ * \param sequenceNumber A integer sequence node number value.
+ */
 SequenceNode::SequenceNode(std::vector<hero> newHero, int sequenceNumber) {
     this->next = NULL;
     unsigned int tmpCount = 0;
-    /*hero tmpHero;
+    hero tmpHero;
     tmpHero.powerLevel = -1;
     tmpHero.id = -1;
     for(int i=0; i < newHero.size() || tmpCount < _BLOC_SIZE_ ; i++) {
@@ -46,15 +61,22 @@ SequenceNode::SequenceNode(std::vector<hero> newHero, int sequenceNumber) {
             this->content[i] = newHero[i];
             tmpCount++;
         }
-    }*/
+    }
     this->sequenceNumber = sequenceNumber;
     this->validRecordsAmount = newHero.size();
 }
 
+/**
+ * Sequence set node object destructor.
+ */
 SequenceNode::~SequenceNode() {
 
 }
 
+/**
+ * Sequence set object constructor. It sets 0 value to
+ * file header and NULL to first and last bloc node pointer.
+ */
 SequenceSet::SequenceSet() {
     for(int i=0; i<_HEADER_INFORMATIONS_; i++) {
         this->header[i] = 0;
@@ -63,26 +85,56 @@ SequenceSet::SequenceSet() {
     this->lastBloc = NULL;
 }
 
+/**
+ * Sequence set object destructor.
+ */
 SequenceSet::~SequenceSet() {
     
 }
 
+/**
+ * This method returns if the sequence set data structure
+ * object contains node elements, verifying the file header
+ * value at array position 0.
+ *
+ * \return bool Result of verification.
+ */
 inline bool SequenceSet::isEmpty() {
     return this->header[0] == 0;
 }
 
+/**
+ * Sequence set blocs amount attribute ccess method.
+ *
+ * \return int A integer value of blocs amount into the structure.
+ */
 inline int SequenceSet::getBlocsAmount() {
     return this->header[0];
 }
 
+/**
+ * Sequence set first bloc index attibute access method.
+ *
+ * \return int A integer value of first bloc index into the sequence set structure.
+ */
 inline int SequenceSet::getFirstBlocIndex() {
     return this->header[1];
 }
 
+/**
+ * Sequence set next disponible bloc attribute access method.
+ *
+ * \return int A integer value of next disponible bloc index.
+ */
 inline int SequenceSet::getNextDisponibleBloc() {
     return this->header[2];
 }
 
+/**
+ * This Sequence node method is responsible for node content array sort.
+ * It makes sort by software settings parameter, defined by the user at main
+ * navigation menu.
+ */
 void SequenceNode::sort() {
     hero tmpHero;
     for(int i=0; i < _BLOC_SIZE_-1; i++) {
@@ -95,6 +147,7 @@ void SequenceNode::sort() {
         }
     }
 }
+
 
 std::string SequenceSet::add(hero newHero) {
     
@@ -110,30 +163,41 @@ std::string SequenceSet::add(hero newHero) {
                             //heroi maior que ultimo, bloco nao cheio e possui next e menor que primeiro elemento do next
                             currentNode->content[currentNode->validRecordsAmount] = newHero;
                             currentNode->validRecordsAmount++;
+                          
                             return _SUCCESSFULLY_OPERATION_MESSAGE_;
                         }else {
                             //heroi maior que ultimo, bloco nao cheio e possui next e maior ou igual que primeiro elemento do next
                             currentNode = currentNode->next;
-                            continue;
+                          
+                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
                         }
                     }else {
                         //heroi maior que ultimo, bloco nao cheio e nao possui next
                         currentNode->content[currentNode->validRecordsAmount] = newHero;
                         currentNode->validRecordsAmount++;
+                        
                         return _SUCCESSFULLY_OPERATION_MESSAGE_;
                     }
                 }else {
                     //heroi maior que o ultimo e bloco cheio
                     if(currentNode->next != NULL) {
                         //heroi maior que o ultimo, bloco cheio e possui proximo
-                        SequenceNode* tmpNode = currentNode->next;
-                        currentNode->next = new SequenceNode(newHero, 5);
-                        currentNode->next->next = tmpNode;
-                        this->header[0]++;
+                        if(newHero.powerLevel >= currentNode->next->content[0].powerLevel) {
+                            currentNode = currentNode->next;
+                            continue;
+                        }else {
+                            SequenceNode* tmpNode = currentNode->next;
+                            currentNode->next = new SequenceNode(newHero, 5);
+                            currentNode->next->next = tmpNode;
+                            this->header[0]++;
+                            std::cout << "bosta";
+                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                        }
                     }else {
                         //heroi maior que o ultimo, bloco cheio e nao possui proximo
                         this->lastBloc = currentNode->next = new SequenceNode(newHero, -1);
                         this->header[0]++;
+                        
                         return _SUCCESSFULLY_OPERATION_MESSAGE_;
                     }
                 }
@@ -148,6 +212,7 @@ std::string SequenceSet::add(hero newHero) {
                             }
                             currentNode->content[i] = newHero;
                             currentNode->validRecordsAmount++;
+                            
                             return _SUCCESSFULLY_OPERATION_MESSAGE_;
                         }
                     }
@@ -168,11 +233,13 @@ std::string SequenceSet::add(hero newHero) {
                                 currentNode->next = new SequenceNode(realocHeroes, 4);
                                 currentNode->next->next = tmpNode;
                                 this->header[0]++;
+                                
                                 return _SUCCESSFULLY_OPERATION_MESSAGE_;
                             }else {
                                 //heroi menor ou igual ao ultimo, com bloco cheio e nao proximo
                                 this->lastBloc = currentNode->next = new SequenceNode(newHero, -1);
                                 this->header[0]++;
+                                
                                 return _SUCCESSFULLY_OPERATION_MESSAGE_;
                             }
                         }
@@ -189,13 +256,20 @@ std::string SequenceSet::add(hero newHero) {
     }
 }
 
+/**
+ * This method is only necessary in this software for tests.
+ */
 void SequenceSet::print() {
     SequenceNode* currentNode = this->firstBloc;
+    unsigned int count=0;
     while(currentNode != NULL) {
+        count++;
+        std::cout << "BLOCO " << count;
         for(int i=0; i < _BLOC_SIZE_; i++) {
             std::cout << "hero power level: " << currentNode->content[i].powerLevel << " \n";
         }
         currentNode = currentNode->next;
+        std::cout << "=======================";
     }
 }
 
@@ -215,15 +289,29 @@ int main() {
     hero tmp6;
     tmp6.powerLevel = 6;
 
+    hero test[16];
+    for(int i=1; i < 16; i++) {
+        test[i].powerLevel=i;
+    }
+    std::cout << s->add(test[1]);
+    std::cout << s->add(test[2]);
+    std::cout << s->add(test[9]);
+    std::cout << s->add(test[6]);
+    std::cout << s->add(test[5]);
+    // std::cout << s->add(test[4]);
+    // std::cout << s->add(test[5]);
+    // std::cout << s->add(test[6]);
+    // std::cout << s->add(test[7]);
+    // std::cout << s->add(test[8]);
+    // std::cout << s->add(test[9]);
+    // std::cout << s->add(tmp); //30
+    // std::cout << s->add(tmp3); //9
+    // std::cout << s->add(tmp5); //5
+    // std::cout << s->add(tmp2); //11
+    // std::cout << s->add(tmp); //30
+    // std::cout << s->add(tmp); //30
     
-    std::cout << s->add(tmp); //30
-    //std::cout << s->add(tmp3); //9
-    std::cout << s->add(tmp5); //5
-    std::cout << s->add(tmp2); //11
-    std::cout << s->add(tmp); //30
-    //std::cout << s->add(tmp); //30
-    
-    //std::cout << s->add(tmp4); //8
+    // std::cout << s->add(tmp4); //8
     // std::cout << s->add(tmp5); //5
     // std::cout << s->add(tmp5);
     // std::cout << s->add(tmp6);
