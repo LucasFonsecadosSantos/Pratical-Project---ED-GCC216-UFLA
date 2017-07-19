@@ -35,9 +35,18 @@ SequenceNode::SequenceNode(hero newHero, int sequenceNumber) {
 
 SequenceNode::SequenceNode(std::vector<hero> newHero, int sequenceNumber) {
     this->next = NULL;
-    for(int i=0; i < newHero.size(); i++) {
-        this->content[i] = newHero[i];
-    }
+    unsigned int tmpCount = 0;
+    /*hero tmpHero;
+    tmpHero.powerLevel = -1;
+    tmpHero.id = -1;
+    for(int i=0; i < newHero.size() || tmpCount < _BLOC_SIZE_ ; i++) {
+        if(tmpCount >= newHero.size()) {
+            this->content[i] = tmpHero;
+        }else {
+            this->content[i] = newHero[i];
+            tmpCount++;
+        }
+    }*/
     this->sequenceNumber = sequenceNumber;
     this->validRecordsAmount = newHero.size();
 }
@@ -74,29 +83,65 @@ inline int SequenceSet::getNextDisponibleBloc() {
     return this->header[2];
 }
 
+void SequenceNode::sort() {
+    hero tmpHero;
+    for(int i=0; i < _BLOC_SIZE_-1; i++) {
+        for(int j = i+1; j < _BLOC_SIZE_; j++) {
+            if(this->content[i].powerLevel > this->content[j].powerLevel) {
+                hero tmpHero = this->content[i];
+                this->content[i] = this->content[j];
+                this->content[j] = tmpHero;
+            }
+        }
+    }
+}
+
 std::string SequenceSet::add(hero newHero) {
     
     if(!isEmpty()) {
         SequenceNode* currentNode = this->firstBloc;
-        while(newHero.powerLevel > currentNode->content[currentNode->validRecordsAmount]) {
-            if(currentNode->next != NULL) {
-                currentNode = currentNode->next;
+        if(newHero.powerLevel >currentNode->content[currentNode->validRecordsAmount].powerLevel) {
+            if((currentNode->next != NULL ) && (newHero.powerLevel < currentNode->next->content[0].powerLevel)) {
+                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+                    currentNode->content[currentNode->validRecordsAmount] = newHero;
+                    currentNode->validRecordsAmount++;
+                    currentNode->sort();
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }else {
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                    //aloca novo bloco pro next e manda galera pra la;
+                }
             }else {
                 if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    for(int i=0; i < _BLOC_SIZE_; i++) {
-                        if(newHero.powerLevel > currentNode->content[i]) {
-                            for(int j=_BLOC_SIZE_; j >= i; j--) {
-                                currentNode->content[j] = currentNode->content[j-1];
-                            }
-                            currentNode->content[i] = newHero;
-                            currentNode->validRecordsAmount++;
-                            if((currentNode->validRecordsAmount == _BLOC_SIZE_) && (currentNode->next != NULL)) {
-                                this->header[2] = currentNode->next->sequenceNumber;
-                            }
-                        }
-                    }
+                    currentNode->content[currentNode->validRecordsAmount] = newHero;
+                    currentNode->validRecordsAmount++;
+                    currentNode->sort();
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
                 }else {
-
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                    //aloca novo no
+                }
+            }
+        }else {
+            if((currentNode->next != NULL ) && (newHero.powerLevel < currentNode->next->content[0].powerLevel)) {
+                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+                    currentNode->content[currentNode->validRecordsAmount] = newHero;
+                    currentNode->validRecordsAmount++;
+                    currentNode->sort();
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }else {
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                    //aloca novo bloco pro next e manda galera pra la;
+                }
+            }else {
+                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+                    currentNode->content[currentNode->validRecordsAmount] = newHero;
+                    currentNode->validRecordsAmount++;
+                    currentNode->sort();
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                }else {
+                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
+                    //aloca novo no
                 }
             }
         }
@@ -106,121 +151,6 @@ std::string SequenceSet::add(hero newHero) {
         this->header[1] = this->header[2] = 0;
         return _SUCCESSFULLY_OPERATION_MESSAGE_;
     }
-    
-    // if(!isEmpty()) {
-    //     SequenceNode* currentNode = this->firstBloc;
-    //     bool continueToNextBloc = false;
-    //     std::vector<hero> realocHeroes;
-    //     do {
-    //         for(int i=0; i < _BLOC_SIZE_; i++) {
-    //             if(newHero.powerLevel < currentNode->content[i].powerLevel) {
-    //                 if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-    //                     for(int j = _BLOC_SIZE_-1; j >= i; j--) {
-    //                         currentNode->content[j] = currentNode->content[j-1];
-    //                     }
-    //                     currentNode->content[i] = newHero;
-    //                     currentNode->validRecordsAmount++;
-    //                     std::cout << currentNode->validRecordsAmount << " asdasd";
-    //                     return _SUCCESSFULLY_OPERATION_MESSAGE_;
-    //                 }else {
-    //                     std::cout << "estouro de bloco ";
-    //                     for(int k=i; k < _BLOC_SIZE_; k++) {
-    //                         realocHeroes.push_back(currentNode->content[k]);
-    //                     }
-    //                     if(currentNode->next == NULL) {
-    //                         currentNode->next = new SequenceNode(realocHeroes, currentNode->sequenceNumber++);
-    //                         SequenceNode* tmpNode = this->firstBloc;
-    //                         unsigned int count = 1;
-    //                         while(tmpNode->next->next != NULL) {
-    //                             count++;
-    //                             tmpNode = tmpNode->next;
-    //                         }
-    //                         currentNode->next->sequenceNumber = -1;
-    //                         this->lastBloc = currentNode->next;
-    //                         this->header[0]++;
-    //                         this->header[1] = this->firstBloc->sequenceNumber;
-    //                         this->header[2] = currentNode->next->sequenceNumber;
-    //                         return _SUCCESSFULLY_OPERATION_MESSAGE_;
-    //                     }else {
-    //                         currentNode = currentNode->next;
-    //                         continueToNextBloc = true;
-    //                         i=0;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }while(continueToNextBloc);
-    // }else {
-    //     this->header[0]++;
-    //     this->header[1] = -1;
-    //     this->header[2] = -1;
-    //     this->firstBloc = new SequenceNode(newHero, -1);
-    //     return _SUCCESSFULLY_OPERATION_MESSAGE_;
-    // }
-
-    /*
-    if(this->header[0] > 0) {
-        SequenceNode* currentNode = this->firstBloc;
-        for(int i=0; i < _BLOC_SIZE_; i++) {
-            if(newHero.powerLevel <= currentNode->content[i].powerLevel) {
-        
-                //If the array contains empty or valid positions;
-                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    for(int j= _BLOC_SIZE_; j > i; j--) {
-                        currentNode->content[j] = currentNode->content[j-1];
-                    }
-                    currentNode->content[i] = newHero;
-                    currentNode->validRecordsAmount++;
-                    std::cout << currentNode->validRecordsAmount << "asd";
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                }else {
-                    std::cout << "testeeeeeeee ";
-                    //It needs a new node to realocated the heroes.
-                    hero realocHeroes[_BLOC_SIZE_-i]; //Heroes that needs to realocated.
-                    unsigned count = 0;
-                    for(int k=i; k <= _BLOC_SIZE_; k++) {
-                        std::cout << "testeeeeeeee " << k;
-                        realocHeroes[count] = currentNode->content[k];
-                        count++;
-                    }
-                    std::cout << "caiu aui";
-                    currentNode->next = new SequenceNode(realocHeroes, i-_BLOC_SIZE_, currentNode->sequenceNumber++);
-                    this->header[0]++;
-                    this->header[1]++;
-                    this->header[2] = currentNode->sequenceNumber++;
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                }
-            }else {
-                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
-                    currentNode->content[currentNode->validRecordsAmount+1] = newHero;
-                    currentNode->validRecordsAmount++;
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                }else {
-
-                    //It needs a new node to realocated the heroes.
-                    hero realocHeroes[_BLOC_SIZE_-i]; //Heroes that needs to realocated.
-                    unsigned count = 0;
-                    for(int k=i; k <= _BLOC_SIZE_; k++) {
-                        realocHeroes[count] = currentNode->content[k];
-                        count++;
-                    }
-                    std::cout << "caiu aui";
-                    currentNode->next = new SequenceNode(realocHeroes, i-_BLOC_SIZE_, currentNode->sequenceNumber++);
-                    this->header[0]++;
-                    this->header[1]++;
-                    this->header[2] = currentNode->sequenceNumber++;
-                    return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                }
-            }
-        }
-    }else {
-        this->header[0]++;
-        this->header[1] = -1;
-        this->header[2] = -1;
-        this->firstBloc = new SequenceNode(newHero, getBlocsAmount());
-        this->lastBloc = this->firstBloc;
-        return _SUCCESSFULLY_OPERATION_MESSAGE_;
-    }*/
 }
 
 void SequenceSet::print() {
@@ -244,12 +174,22 @@ int main() {
     tmp3.powerLevel = 9;
     hero tmp4;
     tmp4.powerLevel = 8;
+    hero tmp5;
+    tmp5.powerLevel = 5;
+    hero tmp6;
+    tmp6.powerLevel = 6;
 
     
-    std::cout << s->add(tmp3);
-    // std::cout << s->add(tmp2);
-    // std::cout << s->add(tmp);
-    // std::cout << s->add(tmp4);
+    std::cout << s->add(tmp3); //9
+    std::cout << s->add(tmp5); //5
+    //std::cout << s->add(tmp2); //11
+    //std::cout << s->add(tmp); //9
+    //std::cout << s->add(tmp); //30
+    
+    std::cout << s->add(tmp4); //8
+    // std::cout << s->add(tmp5); //5
+    // std::cout << s->add(tmp5);
+    // std::cout << s->add(tmp6);
     
     s->print();
     
