@@ -23,6 +23,7 @@
  */
 #include "../../../include/util/data_structure/SequenceSet.h"
 #include "../../../include/app/Object.h"
+#include <vector>
 
 SequenceNode::SequenceNode(hero newHero, int sequenceNumber) {
     this->next = NULL;
@@ -32,13 +33,13 @@ SequenceNode::SequenceNode(hero newHero, int sequenceNumber) {
     this->validRecordsAmount = 1;
 }
 
-SequenceNode::SequenceNode(hero newHero[], int heroesAmount, int sequenceNumber) {
+SequenceNode::SequenceNode(std::vector<hero> newHero, int sequenceNumber) {
     this->next = NULL;
-    for(int i=0; i < heroesAmount; i++) {
+    for(int i=0; i < newHero.size(); i++) {
         this->content[i] = newHero[i];
     }
     this->sequenceNumber = sequenceNumber;
-    this->validRecordsAmount = heroesAmount;
+    this->validRecordsAmount = newHero.size();
 }
 
 SequenceNode::~SequenceNode() {
@@ -74,6 +75,90 @@ inline int SequenceSet::getNextDisponibleBloc() {
 }
 
 std::string SequenceSet::add(hero newHero) {
+    
+    if(!isEmpty()) {
+        SequenceNode* currentNode = this->firstBloc;
+        while(newHero.powerLevel > currentNode->content[currentNode->validRecordsAmount]) {
+            if(currentNode->next != NULL) {
+                currentNode = currentNode->next;
+            }else {
+                if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+                    for(int i=0; i < _BLOC_SIZE_; i++) {
+                        if(newHero.powerLevel > currentNode->content[i]) {
+                            for(int j=_BLOC_SIZE_; j >= i; j--) {
+                                currentNode->content[j] = currentNode->content[j-1];
+                            }
+                            currentNode->content[i] = newHero;
+                            currentNode->validRecordsAmount++;
+                            if((currentNode->validRecordsAmount == _BLOC_SIZE_) && (currentNode->next != NULL)) {
+                                this->header[2] = currentNode->next->sequenceNumber;
+                            }
+                        }
+                    }
+                }else {
+
+                }
+            }
+        }
+    }else {
+        this->firstBloc = this->lastBloc = new SequenceNode(newHero, -1);
+        this->header[0]++;
+        this->header[1] = this->header[2] = 0;
+        return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    }
+    
+    // if(!isEmpty()) {
+    //     SequenceNode* currentNode = this->firstBloc;
+    //     bool continueToNextBloc = false;
+    //     std::vector<hero> realocHeroes;
+    //     do {
+    //         for(int i=0; i < _BLOC_SIZE_; i++) {
+    //             if(newHero.powerLevel < currentNode->content[i].powerLevel) {
+    //                 if(currentNode->validRecordsAmount < _BLOC_SIZE_) {
+    //                     for(int j = _BLOC_SIZE_-1; j >= i; j--) {
+    //                         currentNode->content[j] = currentNode->content[j-1];
+    //                     }
+    //                     currentNode->content[i] = newHero;
+    //                     currentNode->validRecordsAmount++;
+    //                     std::cout << currentNode->validRecordsAmount << " asdasd";
+    //                     return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    //                 }else {
+    //                     std::cout << "estouro de bloco ";
+    //                     for(int k=i; k < _BLOC_SIZE_; k++) {
+    //                         realocHeroes.push_back(currentNode->content[k]);
+    //                     }
+    //                     if(currentNode->next == NULL) {
+    //                         currentNode->next = new SequenceNode(realocHeroes, currentNode->sequenceNumber++);
+    //                         SequenceNode* tmpNode = this->firstBloc;
+    //                         unsigned int count = 1;
+    //                         while(tmpNode->next->next != NULL) {
+    //                             count++;
+    //                             tmpNode = tmpNode->next;
+    //                         }
+    //                         currentNode->next->sequenceNumber = -1;
+    //                         this->lastBloc = currentNode->next;
+    //                         this->header[0]++;
+    //                         this->header[1] = this->firstBloc->sequenceNumber;
+    //                         this->header[2] = currentNode->next->sequenceNumber;
+    //                         return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    //                     }else {
+    //                         currentNode = currentNode->next;
+    //                         continueToNextBloc = true;
+    //                         i=0;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }while(continueToNextBloc);
+    // }else {
+    //     this->header[0]++;
+    //     this->header[1] = -1;
+    //     this->header[2] = -1;
+    //     this->firstBloc = new SequenceNode(newHero, -1);
+    //     return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    // }
+
+    /*
     if(this->header[0] > 0) {
         SequenceNode* currentNode = this->firstBloc;
         for(int i=0; i < _BLOC_SIZE_; i++) {
@@ -135,7 +220,7 @@ std::string SequenceSet::add(hero newHero) {
         this->firstBloc = new SequenceNode(newHero, getBlocsAmount());
         this->lastBloc = this->firstBloc;
         return _SUCCESSFULLY_OPERATION_MESSAGE_;
-    }
+    }*/
 }
 
 void SequenceSet::print() {
@@ -149,7 +234,7 @@ void SequenceSet::print() {
 }
 
 int main() {
-
+    
     SequenceSet* s = new SequenceSet();
     hero tmp;
     tmp.powerLevel = 30;
@@ -157,12 +242,16 @@ int main() {
     tmp2.powerLevel = 11;
     hero tmp3;
     tmp3.powerLevel = 9;
+    hero tmp4;
+    tmp4.powerLevel = 8;
 
     
     std::cout << s->add(tmp3);
-    std::cout << s->add(tmp2);
-    std::cout << s->add(tmp);
+    // std::cout << s->add(tmp2);
+    // std::cout << s->add(tmp);
+    // std::cout << s->add(tmp4);
     
     s->print();
+    
     return 0;
 }
