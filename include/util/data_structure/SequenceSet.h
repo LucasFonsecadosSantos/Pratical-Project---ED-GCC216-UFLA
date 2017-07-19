@@ -23,12 +23,14 @@
  */
 #ifndef SEQUENCE_SET_TYPE_H
 #define SEQUENCE_SET_TYPE_H 1
-#define _BLOC_SIZE_ 8
+#define _BLOC_SIZE_ 5
 #define _HEADER_INFORMATIONS_ 3
 
 #include "../../app/Object.h"
 #include "LinkedList.h"
 #include "../../../src/util/data_structure/LinkedList.cpp"
+#include <vector>
+#include <fstream>
 
 /**
  * This class describes a SequenceNode sequence set object, where 
@@ -68,6 +70,8 @@ class SequenceNode {
          * \param validRecordsAmount
          */
         int validRecordsAmount;
+
+        void sort();
         
     public:
 
@@ -90,7 +94,7 @@ class SequenceNode {
          * \param int A integer heroes amount that will be inserted value.
          * \param int A integer current sequence set number value.
          */
-        SequenceNode(hero[], int, int);
+        SequenceNode(std::vector<hero>, int);
 
         /**
          * SequenceNode object destructor.
@@ -99,6 +103,11 @@ class SequenceNode {
 
 };
 
+struct header {
+    unsigned int blocAmount;
+    int firstBloc;
+    int nextDisponible;
+};
 /**
  * This class describes the main sequence set data structure.
  * It is a kind of linked list to facilitate the informations
@@ -115,8 +124,8 @@ class SequenceSet {
          *
          * \var header[]
          */
-        int header[_HEADER_INFORMATIONS_];
-
+        header* headerFile;
+        std::fstream file;
         SequenceNode* firstBloc;
         SequenceNode* lastBloc;
         inline bool isEmpty();
@@ -146,7 +155,11 @@ class SequenceSet {
          */
         std::string add(hero);
 
-        std::string add(LinkedList<hero>);
+        std::string add(hero, SequenceNode*);
+        
+        void print();
+
+        inline SequenceNode* getFirstBloc();
 };
 
 

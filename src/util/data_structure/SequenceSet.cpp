@@ -78,9 +78,7 @@ SequenceNode::~SequenceNode() {
  * file header and NULL to first and last bloc node pointer.
  */
 SequenceSet::SequenceSet() {
-    for(int i=0; i<_HEADER_INFORMATIONS_; i++) {
-        this->header[i] = 0;
-    }
+    this->headerFile = NULL;
     this->firstBloc = NULL;
     this->lastBloc = NULL;
 }
@@ -99,36 +97,36 @@ SequenceSet::~SequenceSet() {
  *
  * \return bool Result of verification.
  */
-inline bool SequenceSet::isEmpty() {
-    return this->header[0] == 0;
-}
+// inline bool SequenceSet::isEmpty() {
+//     return this->header[0] == 0;
+// }
 
-/**
- * Sequence set blocs amount attribute ccess method.
- *
- * \return int A integer value of blocs amount into the structure.
- */
-inline int SequenceSet::getBlocsAmount() {
-    return this->header[0];
-}
+// /**
+//  * Sequence set blocs amount attribute ccess method.
+//  *
+//  * \return int A integer value of blocs amount into the structure.
+//  */
+// inline int SequenceSet::getBlocsAmount() {
+//     return this->header[0];
+// }
 
-/**
- * Sequence set first bloc index attibute access method.
- *
- * \return int A integer value of first bloc index into the sequence set structure.
- */
-inline int SequenceSet::getFirstBlocIndex() {
-    return this->header[1];
-}
+// /**
+//  * Sequence set first bloc index attibute access method.
+//  *
+//  * \return int A integer value of first bloc index into the sequence set structure.
+//  */
+// inline int SequenceSet::getFirstBlocIndex() {
+//     return this->header[1];
+// }
 
-/**
- * Sequence set next disponible bloc attribute access method.
- *
- * \return int A integer value of next disponible bloc index.
- */
-inline int SequenceSet::getNextDisponibleBloc() {
-    return this->header[2];
-}
+// /**
+//  * Sequence set next disponible bloc attribute access method.
+//  *
+//  * \return int A integer value of next disponible bloc index.
+//  */
+// inline int SequenceSet::getNextDisponibleBloc() {
+//     return this->header[2];
+// }
 
 /**
  * This Sequence node method is responsible for node content array sort.
@@ -149,112 +147,56 @@ void SequenceNode::sort() {
 }
 
 
-std::string SequenceSet::add(hero newHero) {
-    
-    if(!isEmpty()) {
-        SequenceNode* currentNode = this->firstBloc;
-        //maior que o ultimo do no atual e menor que o primeiro do proximo no
-        while(currentNode != NULL) {
-            if(newHero.powerLevel > currentNode->content[currentNode->validRecordsAmount-1].powerLevel) {
-                if(currentNode->validRecordsAmount != _BLOC_SIZE_) {
-                    if(currentNode->next != NULL) {
-                        //heroi maior que ultimo, bloco nao cheio e possui next
-                        if(newHero.powerLevel < currentNode->next->content[0].powerLevel) {
-                            //heroi maior que ultimo, bloco nao cheio e possui next e menor que primeiro elemento do next
-                            currentNode->content[currentNode->validRecordsAmount] = newHero;
-                            currentNode->validRecordsAmount++;
-                          
-                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                        }else {
-                            //heroi maior que ultimo, bloco nao cheio e possui next e maior ou igual que primeiro elemento do next
-                            currentNode = currentNode->next;
-                          
-                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                        }
-                    }else {
-                        //heroi maior que ultimo, bloco nao cheio e nao possui next
-                        currentNode->content[currentNode->validRecordsAmount] = newHero;
-                        currentNode->validRecordsAmount++;
-                        
-                        return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                    }
-                }else {
-                    //heroi maior que o ultimo e bloco cheio
-                    if(currentNode->next != NULL) {
-                        //heroi maior que o ultimo, bloco cheio e possui proximo
-                        if(newHero.powerLevel >= currentNode->next->content[0].powerLevel) {
-                            currentNode = currentNode->next;
-                            continue;
-                        }else {
-                            SequenceNode* tmpNode = currentNode->next;
-                            currentNode->next = new SequenceNode(newHero, 5);
-                            currentNode->next->next = tmpNode;
-                            this->header[0]++;
-                            std::cout << "bosta";
-                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                        }
-                    }else {
-                        //heroi maior que o ultimo, bloco cheio e nao possui proximo
-                        this->lastBloc = currentNode->next = new SequenceNode(newHero, -1);
-                        this->header[0]++;
-                        
-                        return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                    }
-                }
-            }else {
-                //heroi menor ou igual  o ultimo
-                if(currentNode->validRecordsAmount != _BLOC_SIZE_) {
-                    //heroi menor e igual o ultimo com bloco nao cheio
-                    for(int i=0; i < _BLOC_SIZE_; i++) {
-                        if(newHero.powerLevel <= currentNode->content[i].powerLevel) {
-                            for(int j=_BLOC_SIZE_-1; j >= i; j--) {
-                                currentNode->content[j] = currentNode->content[j-1];
-                            }
-                            currentNode->content[i] = newHero;
-                            currentNode->validRecordsAmount++;
-                            
-                            return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                        }
-                    }
-                }else {
-                    //heroi menor e igual o ultimo com bloco cheio
-                    std::vector<hero> realocHeroes;
-                    
-                    for(int i=0; i<_BLOC_SIZE_; i++) {
-                        if(newHero.powerLevel <= currentNode->content[i].powerLevel) {
-                            for(int j=i; j<_BLOC_SIZE_; j++) {
-                                realocHeroes.push_back(currentNode->content[j]);
-                            }
-                            currentNode->content[i] = newHero;
-                            currentNode->validRecordsAmount = _BLOC_SIZE_ - i;
-                            if(currentNode->next != NULL) {
-                                //heroi menor ou igual ao ultimo, com bloco cheio e proximo
-                                SequenceNode* tmpNode = currentNode->next;
-                                currentNode->next = new SequenceNode(realocHeroes, 4);
-                                currentNode->next->next = tmpNode;
-                                this->header[0]++;
-                                
-                                return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                            }else {
-                                //heroi menor ou igual ao ultimo, com bloco cheio e nao proximo
-                                this->lastBloc = currentNode->next = new SequenceNode(newHero, -1);
-                                this->header[0]++;
-                                
-                                return _SUCCESSFULLY_OPERATION_MESSAGE_;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-    }else {
-        this->firstBloc = this->lastBloc = new SequenceNode(newHero, -1);
-        this->header[0]++;
-        this->header[1] = this->header[2] = 0;
-        return _SUCCESSFULLY_OPERATION_MESSAGE_;
+std::string SequenceSet::add(hero newHero, SequenceNode* begin) {
+    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    if(!this->file.is_open()) {
+        std::cerr << "tessste";
     }
+
+    this->file.close();
+    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    this->file.read((char*) &this->headerFile, sizeof(header));
+    this->file.close();
+    
+    if(this->headerFile == NULL) {
+        header newHeaderFile;
+        newHeaderFile.blocAmount = 0;
+        newHeaderFile.firstBloc = 0;
+        newHeaderFile.nextDisponible = 0;
+        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+        this->file.write((char*) &newHeaderFile, sizeof(header));
+        this->file.close();
+        
+    }
+
+    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+    header currentHeaderFile;
+    
+    this->file.seekg(0, std::fstream::beg);
+    this->file.read((char*) &currentHeaderFile, sizeof(header));
+    this->headerFile = &currentHeaderFile;
+    this->file.close();
+
+    if(this->headerFile->blocAmount == 0) {
+        SequenceNode* tmpNode = new SequenceNode(newHero, -1);
+        this->headerFile->blocAmount++;
+        
+        this->headerFile->nextDisponible = this->headerFile->firstBloc = -1;
+        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
+        this->file.seekg(0, std::fstream::beg);
+        this->file.write((char*) &this->headerFile, sizeof(header));
+        this->file.seekg(12, std::fstream::beg);
+        this->file.write((char*) &tmpNode, sizeof(SequenceNode));
+        this->file.close();
+        return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    }else {
+
+        SequenceNode* tmpNode;
+        
+    }
+    return "bosta";
 }
+
 
 /**
  * This method is only necessary in this software for tests.
@@ -273,31 +215,37 @@ void SequenceSet::print() {
     }
 }
 
+inline SequenceNode* SequenceSet::getFirstBloc() {
+    return this->firstBloc;
+}
+
 int main() {
     
     SequenceSet* s = new SequenceSet();
     hero tmp;
-    tmp.powerLevel = 30;
-    hero tmp2;
-    tmp2.powerLevel = 11;
-    hero tmp3;
-    tmp3.powerLevel = 9;
-    hero tmp4;
-    tmp4.powerLevel = 8;
-    hero tmp5;
-    tmp5.powerLevel = 5;
-    hero tmp6;
-    tmp6.powerLevel = 6;
+     tmp.powerLevel = 30;
+    std::cout << s->add(tmp, s->getFirstBloc());
+     
+    // hero tmp2;
+    // tmp2.powerLevel = 11;
+    // hero tmp3;
+    // tmp3.powerLevel = 9;
+    // hero tmp4;
+    // tmp4.powerLevel = 8;
+    // hero tmp5;
+    // tmp5.powerLevel = 5;
+    // hero tmp6;
+    // tmp6.powerLevel = 6;
 
-    hero test[16];
-    for(int i=1; i < 16; i++) {
-        test[i].powerLevel=i;
-    }
-    std::cout << s->add(test[1]);
-    std::cout << s->add(test[2]);
-    std::cout << s->add(test[9]);
-    std::cout << s->add(test[6]);
-    std::cout << s->add(test[5]);
+    // hero test[16];
+    // for(int i=1; i < 16; i++) {
+    //     test[i].powerLevel=i;
+    // }
+    // std::cout << s->add(test[1]);
+    // std::cout << s->add(test[2]);
+    // std::cout << s->add(test[9]);
+    // std::cout << s->add(test[6]);
+    // std::cout << s->add(test[5]);
     // std::cout << s->add(test[4]);
     // std::cout << s->add(test[5]);
     // std::cout << s->add(test[6]);
@@ -316,7 +264,7 @@ int main() {
     // std::cout << s->add(tmp5);
     // std::cout << s->add(tmp6);
     
-    s->print();
+    //s->print();
     
     return 0;
 }
