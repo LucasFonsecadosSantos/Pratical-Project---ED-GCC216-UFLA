@@ -85,6 +85,10 @@ void LinkedList<TYPE>::add(TYPE content) {
 
 /**
  *
+ * It
+ *
+ *
+ * \return TYPE A generic type returned.
  */
 template<typename TYPE>
 TYPE LinkedList<TYPE>::remove() {

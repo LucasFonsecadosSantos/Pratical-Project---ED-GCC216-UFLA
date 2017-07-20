@@ -57,11 +57,20 @@ enum searchMode{
     id
 };
 
+/**
+ * This enum type describes the user software settings.
+ * With this, the user can set any system settings.
+ * At this moment, just ordenation mode setting the
+ * user can change.
+ */
 enum settings_orderedPrintOut {
     by_id,
     by_power
 };
 
+/**
+ *
+ */
 struct choose {
     searchMode mode;
     int integerContent;

@@ -33,6 +33,9 @@ Logger::~Logger() {
 
 }
 
+/**
+ *
+ */
 std::string Logger::initializerLogger() {
 
     this->data->generateDayLogFile();

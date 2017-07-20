@@ -154,30 +154,51 @@ std::string SequenceSet::add(hero newHero, SequenceNode* begin) {
     }
     this->file.close();
 
-    this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
     header he;
     this->headerFile = &he;
     this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
-    he.blocAmount = 0;
-    he.nextDisponible = 0;
-    he.firstBloc = 0;
-    this->file.write((char*) &he, sizeof(header));
+
+    //If this file is empty, a new file header is written.
+    // if(this->file.tellg() == 0) {
+    //     he.blocAmount = 0;
+    //     he.nextDisponible = 0;
+    //     he.firstBloc = 0;
+    //     this->file.seekg(0, std::fstream::beg);
+    //     this->file.write((char*) &he, sizeof(header));
+    // }
+
+    //In the first stage, the file header is read.
     this->file.seekg(0, std::fstream::beg);
     this->file.read((char*) &he, sizeof(header));
     std::cout << he.blocAmount;
     this->file.close();
-    return "bosta";
-    if(this->headerFile == NULL){
-        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::app);
-        header ho;
-        this->headerFile = &ho;
-        this->headerFile->blocAmount = 0;
-        this->headerFile->firstBloc = 0;
-        this->headerFile->nextDisponible = 0;
-        this->file.write((char*) &this->headerFile, sizeof(header));
-        this->file.close();
-    }
     
+    //If the file header pointer is NULL, it attributes 0 value to him and store this at binary file.
+    if(this->headerFile->blocAmount == 0){
+        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
+        header ho;
+        std::cout <<"cucuia";
+        this->file.seekg(0, std::fstream::beg);
+        this->headerFile = &ho;
+        this->headerFile->blocAmount = 1;
+        this->headerFile->firstBloc = -1;
+        this->headerFile->nextDisponible = -1;
+        this->file.write((char*) &this->headerFile, sizeof(header));
+        SequenceNode* tmpNode = new SequenceNode(newHero, -1);
+        std::cout << "sizeo"<< sizeof(tmpNode) << "sizeo";
+        this->file.write((char*) &tmpNode, sizeof(tmpNode));
+        this->file.close();
+        return _SUCCESSFULLY_OPERATION_MESSAGE_;
+    }else {
+        this->file.open("./data/data.bin", std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
+        SequenceNode* s;
+        header hee;
+        this->file.read((char*) &hee, sizeof(header));
+        this->headerFile = &hee;
+    
+        
+        return "carniça";
+    }
     // if(this->headerFile == NULL) {
     //     header newHeaderFile;
     //     newHeaderFile.blocAmount = 0;
@@ -207,14 +228,12 @@ std::string SequenceSet::add(hero newHero, SequenceNode* begin) {
     //     this->file.seekg(12, std::fstream::beg);
     //     this->file.write((char*) &tmpNode, sizeof(SequenceNode));
     //     this->file.close();
-    //     std::cout << "QUE BOSTA";
     //     return _SUCCESSFULLY_OPERATION_MESSAGE_;
     // }else {
 
     //     SequenceNode* tmpNode;
         
     // }
-    // return "bosta";
 }
 
 
@@ -246,8 +265,8 @@ int main() {
      tmp.powerLevel = 30;
     std::cout << s->add(tmp, s->getFirstBloc());
      
-    // hero tmp2;
-    // tmp2.powerLevel = 11;
+    hero tmp2;
+    tmp2.powerLevel = 11;
     // hero tmp3;
     // tmp3.powerLevel = 9;
     // hero tmp4;
@@ -261,7 +280,6 @@ int main() {
     // for(int i=1; i < 16; i++) {
     //     test[i].powerLevel=i;
     // }
-    // std::cout << s->add(test[1]);
     // std::cout << s->add(test[2]);
     // std::cout << s->add(test[9]);
     // std::cout << s->add(test[6]);

@@ -21,12 +21,13 @@
  * This
  * objet.
  */
-#include <iostream>
 #include "../include/app/System.h"
+#include <iostream>
 #include <string>
 
 /**
- *
+ * Main software function.
+ * It calls the main system module.
  */
 int main() {
 

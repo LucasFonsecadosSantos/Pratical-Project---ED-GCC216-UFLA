@@ -87,7 +87,7 @@ void System::execute() {
                 about();
                 break;
             case 99:
-                option = this->gui->confirmExit();
+                //option = this->gui->confirmExit();
                 break;
             default:
                 std::cout << "[X] TYPE A VALID OPTION!";
@@ -142,6 +142,7 @@ void System::printOrderedAllRecords() {
     this->gui->capturePrintOrderedAllRecords(this->data->readSettings(), this->data->recoveryHeroes());
 }
 
+
 void System::editRecord() {
     choose option = this->gui->captureEditRecord();
     if(option.mode == id) {
@@ -151,11 +152,20 @@ void System::editRecord() {
     }
 }
 
+/**
+ * This method opens to the user the settings configurations panel.
+ * Until this moment, just the sort mode can be change by the user.
+ * By id or by name.
+ */
 void System::settings() {
     this->data->storeSettings(this->gui->captureSettings(data->readSettings()));
     this->gui->pressToContinue();
 }
 
+/**
+ * This method shows to the user, into console screen the informations
+ * about this software as license, developers and others.
+ */
 void System::about() {
     this->gui->showAbout();
 }

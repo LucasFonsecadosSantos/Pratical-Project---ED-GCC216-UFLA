@@ -124,7 +124,11 @@ LinkedList<hero> GUI::captureAddNewRecord() {
 }
 
 /**
+ * This method is responsible for shows heroes informations.
+ * He receives a hero linked list data structure and runs it, printing
+ * out all heroes attribute states. Overloaded method.
  *
+ * \param heroes Hero linked list with all heroes loaded.
  */
 void GUI::showHeroes(LinkedList<hero> heroes) {
     std::cout << header("HEROES STORED IN THE SYSTEM");
@@ -140,6 +144,13 @@ void GUI::showHeroes(LinkedList<hero> heroes) {
     }
 }
 
+/**
+ * This method is responsible for shows heroes informations.
+ * He receives a hero linked list data structure and runs it, printing
+ * out all heroes attribute states. Overloaded method. Overloaded method.
+ *
+ * \param heroes C++ Hero vector with all heroes loaded.
+ */
 void GUI::showHeroes(std::vector<hero> heroes) {
     std::cout << header("HEROES STORED IN THE SYSTEM");
     hero tmpHero;
@@ -153,6 +164,10 @@ void GUI::showHeroes(std::vector<hero> heroes) {
     }
 }
 
+/**
+ * This method "pauses" the flow execution for the user can read
+ * and interpret all console screen informations.
+ */
 void GUI::pressToContinue() {
     std::cout << "[#] PRESS ANY KEY TO CONTINUE...";
     std::cin.ignore();
@@ -167,10 +182,9 @@ void GUI::clear() {
    system("reset");
 }
 
-int GUI::confirmExit() {
-    return 1;
-}
-
+/**
+ *
+ */
 std::string GUI::header(std::string text) {
     clear();
     std::string s = "+===================================================+\n";
@@ -291,6 +305,9 @@ void GUI::capturePrintOrderedAllRecords(settings_orderedPrintOut settings, Linke
     pressToContinue();
 }
 
+/**
+ *
+ */
 choose GUI::captureSettings(settings_orderedPrintOut settings) {
     int opt;
     choose option;
@@ -337,6 +354,9 @@ choose GUI::captureSettings(settings_orderedPrintOut settings) {
     return option;
 }
 
+/**
+ *
+ */
 void GUI::showAbout() {
     clear();
     char press;

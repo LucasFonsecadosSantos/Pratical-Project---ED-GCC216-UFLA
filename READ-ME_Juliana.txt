@@ -1,0 +1,16 @@
+Ola Juliana!
+
+Para compilar e executar o programa, basta
+executar o script:
+
+$ ./marvel.sh
+
+Apos isso, compilacoes efetuadas com sucesso, basta chamar
+o executavel:
+
+$ ./marvel
+
+e pronto!
+
+Att,
+Lucas.

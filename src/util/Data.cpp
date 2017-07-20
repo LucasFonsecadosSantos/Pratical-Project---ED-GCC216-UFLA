@@ -108,6 +108,7 @@ void Data::generateDayLogFile() {
        this->outLogFile.close();
     }else {
         this->outFile << "dsajiiasdjidasijoasdjiosadjioasdjiodasjiojioasdjiodasjioasdjiodasjioasdjiodajiojiasdojioasdjiodasjioasdjio";
+        this->outFile.close();
     }
 }
 
