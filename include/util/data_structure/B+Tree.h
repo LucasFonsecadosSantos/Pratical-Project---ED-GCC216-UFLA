@@ -1,25 +1,35 @@
 
 #ifndef B_PLUS_TREE_TYPE_H
 #define B_PLUS_TREE_TYPE_H 1
+#define __B_PLUS_TREE_ORDER__ 4
 
-#define __B_PLUS_TREE_ORDER__
 #include "../../app/Object.h"
 #include <cstddef>
 #include <string>
+#include <vector>
+#include <fstream>
 
 typedef int key;
 
-class Node {
+struct headerFile {
+    char dataAmount;
+    int firstBucket;
+    int nextDisponibleBucket;
+    
+};
+
+class Page {
 
     friend class BPlusTree;
 
     private:
         key* index;
-        Node* child;
-        unsigned short dataAmount;
+        Page** child;
+        int dataAmount;
     public:
-        Node(key);
-        ~Node();
+        Page();
+        Page(key);
+        ~Page();
 };
 
 class Bucket {
@@ -29,19 +39,33 @@ class Bucket {
         Bucket* nextBucket;
         Bucket* previusBucket;
         hero* data;
-        unsigned short dataAmount;
-        void split(hero[]);
-    public:
-        Bucket(hero);
-        Bucket(hero[]);
-        ~Bucket();
+        int dataAmount;
         std::string insert(hero);
         std::string remove(hero);
+
+    public:
+        Bucket();
+        Bucket(hero);
+        Bucket(std::vector<hero>);
+        ~Bucket();
 };
 
 class BPlusTree {
     private:
-        Node* root;
+        Page* root;
+        Bucket* buckets;
+        int order;
+        int pageAmount;
+        int dataAmount;
+        void split(hero[]);
+        inline bool isEmpty();
+        std::fstream file;
+    public:
+        BPlusTree();
+        ~BPlusTree();
+        int getDataAmount();
+        std::string remove(std::string);
+        std::string insert(hero);
 };
 
 #endif
